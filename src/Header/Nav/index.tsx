@@ -1,25 +1,30 @@
 'use client'
 
 import React from 'react'
-
+import Link from 'next/link'
 import type { Header as HeaderType } from '@/payload-types'
 
-import { CMSLink } from '@/components/Link'
-import Link from 'next/link'
-import { SearchIcon } from 'lucide-react'
+type NavItem = NonNullable<HeaderType['navItems']>[number]
+
+const HeaderNavItem: React.FC<{ item: NavItem }> = ({ item }) => (
+  <Link
+    href={item.link.url || '/'}
+    className="text-sm text-gray-300 hover:text-white hover:underline transition-colors"
+  >
+    {item.link.label}
+  </Link>
+)
 
 export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
   const navItems = data?.navItems || []
 
+  if (navItems.length === 0) return null
+
   return (
-    <nav className="flex gap-3 items-center">
-      {navItems.map(({ link }, i) => {
-        return <CMSLink key={i} {...link} appearance="link" />
-      })}
-      <Link href="/search">
-        <span className="sr-only">Search</span>
-        <SearchIcon className="w-5 text-primary" />
-      </Link>
+    <nav className="hidden md:flex flex-1 justify-center items-center w-full h-full gap-8">
+      {navItems.map((item, index) => (
+        <HeaderNavItem key={`nav-item-${index}`} item={item} />
+      ))}
     </nav>
   )
 }
