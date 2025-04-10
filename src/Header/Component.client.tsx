@@ -38,17 +38,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       {...(theme ? { 'data-theme': theme } : {})}
     >
       <div className="p-8 flex justify-between gap-8 items-center h-full w-full bg-gradient-to-b from-black from-50% to-transparent to-100% blur-xs">
-        <Link href="/">
-          <Logo loading="eager" priority="high" className="invert dark:invert-0" />
-        </Link>
-        <HeaderNav data={data} />
-        <div className="hidden md:flex" />
-        <div
-          className="flex h-6 w-6 items-end md:hidden cursor-pointer"
-          onClick={() => setOpenMenu(true)}
-        >
-          <Menu />
+        <div className="flex-1">
+          <Link href="/">
+            <Logo loading="eager" priority="high" className="invert dark:invert-0" />
+          </Link>
         </div>
+
+        <div className="flex-1 flex justify-center">
+          <HeaderNav data={data} />
+        </div>
+
+        <div className="flex-1 flex justify-end">
+          <div
+            className="flex h-6 w-6 items-end md:hidden cursor-pointer"
+            onClick={() => setOpenMenu(true)}
+          >
+            <Menu />
+          </div>
+        </div>
+
         <Drawer open={isOpenMenu} onClose={() => setOpenMenu(false)} data={data} />
       </div>
     </header>

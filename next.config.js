@@ -19,6 +19,7 @@ const nextConfig = {
         }
       }),
     ],
+    domains: ['fakeimg.pl', 'dummyjson.com'],
   },
   reactStrictMode: true,
   redirects,
