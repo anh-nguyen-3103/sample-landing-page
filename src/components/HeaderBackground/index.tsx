@@ -148,9 +148,9 @@ const HeaderContent = () => {
 
         <div className="absolute bottom-0 z-3 w-full">
           <div
-            className={`w-full transition-opacity duration-500 ${hoveredItem !== undefined ? 'h-[85vh] md:h-[300px] bg-black opacity-90' : 'h-0 bg-black opacity-0'}`}
+            className={`w-full transition-opacity duration-500 flex ${hoveredItem !== undefined ? 'h-[85vh] md:h-[300px] bg-black opacity-90' : 'h-0 bg-black opacity-0'}`}
           >
-            <InfoCompany />
+            <InfoCompany item={hoveredItem} />
           </div>
           <Carousel
             data={companies}
