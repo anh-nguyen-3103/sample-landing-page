@@ -58,7 +58,7 @@ export default async function Page({ params: paramsPromise }: Args) {
     return <PayloadRedirects url={url} />
   }
 
-  return <div className="w-full h-[100vh] container mx-auto">Careers Page</div>
+  return <div className="w-full h-[100vh] container mx-auto" />
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {

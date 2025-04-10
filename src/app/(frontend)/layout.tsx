@@ -11,10 +11,6 @@ import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 
-import { Carousel } from '@/components/Carousel'
-import { Logo } from '@/components/Carousel/components/LogoItem'
-import { HeaderBackground } from '@/components/HeaderBackground'
-import { Images } from '@/constants/images'
 import { getServerSideURL } from '@/utilities/getURL'
 import './globals.css'
 
@@ -36,8 +32,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             }}
           /> */}
           <Header />
-          <HeaderBackground />
-          <Carousel data={logos} type="logo" className="bg-gray-400 mb-32" />
           {children}
           <Footer />
         </Providers>
@@ -45,15 +39,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     </html>
   )
 }
-
-const logos: Logo[] = [
-  { id: 0, name: 'bobidi', url: Images.bobidi },
-  { id: 1, name: 'joongang', url: Images.joongang },
-  { id: 2, name: 'simonSays', url: Images.simonSays },
-  { id: 3, name: 'techcombank', url: Images.techcombank },
-  { id: 4, name: 'timelessWallet', url: Images.timelessWallet },
-  { id: 5, name: 'windDriver', url: Images.windDriver },
-]
 
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
