@@ -9,6 +9,7 @@ import { cache } from 'react'
 
 import { Earth3D } from '@/components/Earth3D'
 import { generateMeta } from '@/utilities/generateMeta'
+import { OurWorksSection } from './components/OurWorksSection'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -60,8 +61,11 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   return (
-    <div className="w-full h-[100vh] container mx-auto flex justify-center items-center">
-      <Earth3D />
+    <div className="w-full min-h-[100vh] flex flex-col">
+      <div className="flex py-16 justify-center">
+        <Earth3D />
+      </div>
+      <OurWorksSection />
     </div>
   )
 }

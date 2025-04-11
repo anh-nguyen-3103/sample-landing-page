@@ -111,10 +111,7 @@ export const Carousel = <T extends Item>({
   }
 
   return (
-    <section
-      className={`w-full overflow-hidden h-fit ${className}`}
-      // ref={containerRef}
-    >
+    <section className={`w-full overflow-hidden h-fit ${className}`} ref={containerRef}>
       <div className="relative">
         <div ref={itemsRef} className="flex gap-6 px-4 will-change-transform">
           {expandedData.map((item, index) => (
