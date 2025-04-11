@@ -7,6 +7,7 @@ import { draftMode } from 'next/headers'
 import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
 import { cache } from 'react'
 
+import { Earth3D } from '@/components/Earth3D'
 import { generateMeta } from '@/utilities/generateMeta'
 
 export async function generateStaticParams() {
@@ -58,7 +59,11 @@ export default async function Page({ params: paramsPromise }: Args) {
     return <PayloadRedirects url={url} />
   }
 
-  return <div className="w-full h-[100vh] container mx-auto" />
+  return (
+    <div className="w-full h-[100vh] container mx-auto flex justify-center items-center">
+      <Earth3D />
+    </div>
+  )
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {

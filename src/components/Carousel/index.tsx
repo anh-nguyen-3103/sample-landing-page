@@ -33,7 +33,7 @@ export const Carousel = <T extends Item>({
   const containerRef = useRef<HTMLDivElement>(null)
   const itemsRef = useRef<HTMLDivElement>(null)
   const animationRef = useRef<number | null>(null)
-  // Create a state to keep track of the expanded data array (original + clones)
+
   const [expandedData, setExpandedData] = useState<T[]>(data)
 
   const carouselContext = contextHook
@@ -45,14 +45,12 @@ export const Carousel = <T extends Item>({
 
   const { setHoveredItem } = carouselContext
 
-  // Update expandedData when data changes
   useEffect(() => {
     if (!data.length) {
       setExpandedData([])
       return
     }
 
-    // Create expanded data that includes both original and cloned items
     setExpandedData([...data, ...data])
   }, [data])
 
@@ -64,7 +62,6 @@ export const Carousel = <T extends Item>({
 
     if (!container || !items) return
 
-    // Calculate the width of the original items (half of the expandedData)
     const originalItemsWidth = items.scrollWidth / 2
 
     let position = 0
@@ -77,7 +74,6 @@ export const Carousel = <T extends Item>({
 
       position -= speed / 100
 
-      // Reset position when we've scrolled through the original items
       if (Math.abs(position) >= originalItemsWidth) {
         position = 0
       }
@@ -115,7 +111,10 @@ export const Carousel = <T extends Item>({
   }
 
   return (
-    <section className={`w-full overflow-hidden h-fit ${className}`} ref={containerRef}>
+    <section
+      className={`w-full overflow-hidden h-fit ${className}`}
+      // ref={containerRef}
+    >
       <div className="relative">
         <div ref={itemsRef} className="flex gap-6 px-4 will-change-transform">
           {expandedData.map((item, index) => (

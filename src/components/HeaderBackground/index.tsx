@@ -112,9 +112,10 @@ const HeaderContent = () => {
 
   useEffect(() => {
     if (videoRef.current) {
-      videoRef.current.play().catch((err) => {
-        console.warn('Video autoplay failed:', err.message)
-      })
+      videoRef.current.pause()
+      // videoRef.current.play().catch((err) => {
+      //   console.warn('Video autoplay failed:', err.message)
+      // })
     }
   }, [])
 

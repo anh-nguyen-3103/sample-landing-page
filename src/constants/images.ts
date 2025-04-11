@@ -6,4 +6,5 @@ export const Images = {
   techcombank: '/assets/images/techcombank-logo.png',
   timelessWallet: '/assets/images/timeless-wallet-logo.png',
   windDriver: '/assets/images/wind-driver-logo.png',
+  worldMap: '/assets/images/world-map.jpg',
 }
