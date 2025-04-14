@@ -51,7 +51,7 @@ export const Carousel = <T extends Item>({
       return
     }
 
-    setExpandedData([...data, ...data])
+    setExpandedData([...data, ...data, ...data, ...data])
   }, [data])
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export const Carousel = <T extends Item>({
 
     if (!container || !items) return
 
-    const originalItemsWidth = items.scrollWidth / 2
+    const originalItemsWidth = items.scrollWidth / 4
 
     let position = 0
 
