@@ -15,7 +15,6 @@ const Globe = ({ image, rotationSpeed = 0.005 }: { image: string; rotationSpeed?
   const meshRef = useRef<THREE.Mesh>(null)
   const texture = useLoader(THREE.TextureLoader, image)
 
-  // Rotate the globe on each frame
   useFrame(() => {
     if (meshRef.current) {
       meshRef.current.rotation.y += rotationSpeed
@@ -25,7 +24,7 @@ const Globe = ({ image, rotationSpeed = 0.005 }: { image: string; rotationSpeed?
   return (
     <>
       <ambientLight intensity={0.3} />
-      <directionalLight position={[5, 3, 5]} intensity={1} />
+      <directionalLight position={[1, 1, 10]} intensity={10} />
       <mesh ref={meshRef}>
         <sphereGeometry args={[2, 64, 64]} />
         <meshStandardMaterial map={texture} />

@@ -1,14 +1,5 @@
+import { Company } from '@/models/client'
 import Image from 'next/image'
-import { Item } from '..'
-
-export interface Company extends Item {
-  url: string
-  thumbnail: string
-  title: string
-  description: string
-  industry: string[]
-  scope: Array<{ name: string; href?: string }>
-}
 
 interface CompanyItemProps {
   item: Company
@@ -24,8 +15,8 @@ export const CompanyItem = ({ item, onMouseEnter, onMouseLeave }: CompanyItemPro
       onMouseLeave={onMouseLeave}
     >
       <Image
-        src={item.url}
-        alt={item.name}
+        src={item.image?.url ?? ''}
+        alt={item.image?.alt ?? ''}
         width={130}
         height={70}
         className="grayscale"
