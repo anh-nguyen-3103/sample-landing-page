@@ -92,7 +92,7 @@ export const StatisticsSection = () => {
         </div>
       </div>
 
-      <div className="w-full flex flex-col md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 py-12 px-28">
+      <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-4 md:py-12 md:px-28">
         <div className="w-full p-6 flex justify-between gap-6">
           <div className="w-1 h-[55%] bg-orange-400 rounded-full" />
           <div className="flex flex-col h-full justify-evenly items-start flex-1">

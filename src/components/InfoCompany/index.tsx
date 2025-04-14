@@ -1,5 +1,5 @@
+import { Company } from '@/models/client'
 import React from 'react'
-import { Company } from '../Carousel/components/CompanyItem'
 
 interface InfoCompanyProps {
   item?: Company

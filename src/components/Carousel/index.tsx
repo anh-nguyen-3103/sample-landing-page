@@ -1,19 +1,19 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Company, CompanyItem } from './components/CompanyItem'
+import { CompanyItem } from './components/CompanyItem'
 import createCarouselContext from './provider'
+import { Company } from '@/models/client'
 
 export enum ItemType {
   Logo = 'logo',
 }
 
-export type Item = {
-  id: number
-  name: string
+export interface CarouselItemBase {
+  id: string | number
 }
 
-interface CarouselProps<T extends Item> {
+interface CarouselProps<T extends CarouselItemBase> {
   className?: string
   data: T[]
   play?: boolean
@@ -22,19 +22,19 @@ interface CarouselProps<T extends Item> {
   contextHook?: ReturnType<typeof createCarouselContext<T>>['useCarousel']
 }
 
-export const Carousel = <T extends Item>({
+export function Carousel<T extends CarouselItemBase>({
   className = '',
   data,
   play = true,
   speed = 100,
   type,
   contextHook,
-}: CarouselProps<T>) => {
+}: CarouselProps<T>) {
   const containerRef = useRef<HTMLDivElement>(null)
   const itemsRef = useRef<HTMLDivElement>(null)
   const animationRef = useRef<number | null>(null)
-
-  const [expandedData, setExpandedData] = useState<T[]>(data)
+  const [expandedData, setExpandedData] = useState<T[]>([])
+  const [isPaused, setIsPaused] = useState(false)
 
   const carouselContext = contextHook
     ? { setHoveredItem: contextHook().setHoveredItem, hoveredItem: contextHook().hoveredItem }
@@ -55,7 +55,7 @@ export const Carousel = <T extends Item>({
   }, [data])
 
   useEffect(() => {
-    if (!play || !expandedData.length) return
+    if (!play || !expandedData.length || isPaused) return
 
     const container = containerRef.current
     const items = itemsRef.current
@@ -63,16 +63,25 @@ export const Carousel = <T extends Item>({
     if (!container || !items) return
 
     const originalItemsWidth = items.scrollWidth / 2
-
     let position = 0
+    let lastTimestamp = 0
 
-    const animate = () => {
+    const animate = (timestamp: number) => {
       if (!container || !items) {
         animationRef.current = requestAnimationFrame(animate)
         return
       }
 
-      position -= speed / 100
+      if (lastTimestamp === 0) {
+        lastTimestamp = timestamp
+        animationRef.current = requestAnimationFrame(animate)
+        return
+      }
+
+      const delta = timestamp - lastTimestamp
+      lastTimestamp = timestamp
+
+      position -= (speed / 100) * (delta / 16.667)
 
       if (Math.abs(position) >= originalItemsWidth) {
         position = 0
@@ -89,7 +98,7 @@ export const Carousel = <T extends Item>({
         cancelAnimationFrame(animationRef.current)
       }
     }
-  }, [play, speed, expandedData])
+  }, [play, speed, expandedData, isPaused])
 
   const renderItem = (item: T, index: number) => {
     switch (type) {
@@ -102,18 +111,28 @@ export const Carousel = <T extends Item>({
           />
         )
       default:
+        const itemName = 'name' in item ? String(item.name) : `Item ${index % data.length}`
         return (
           <div className="flex justify-center items-center rounded-lg bg-blue-500 text-white px-4 py-2">
-            {`Item ${index % data.length} - ${item.name}`}
+            {`${itemName}`}
           </div>
         )
     }
   }
 
   return (
-    <section className={`w-full overflow-hidden h-fit ${className}`} ref={containerRef}>
+    <section
+      className={`w-full overflow-hidden h-fit ${className}`}
+      ref={containerRef}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       <div className="relative">
-        <div ref={itemsRef} className="flex gap-6 px-4 will-change-transform">
+        <div
+          ref={itemsRef}
+          className="flex gap-6 px-4 will-change-transform"
+          style={{ transform: 'translateX(0px)' }}
+        >
           {expandedData.map((item, index) => (
             <div
               className="flex-shrink-0 w-fit transition-transform duration-200 hover:scale-105"
