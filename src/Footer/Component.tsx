@@ -1,5 +1,5 @@
 import { Logo } from '@/components/Logo/Logo'
-import { Images } from '@/constants/images'
+import { Backgrounds } from '@/constants/images'
 import type { Footer } from '@/payload-types'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import Link from 'next/link'
@@ -15,7 +15,7 @@ export async function Footer() {
       <div className="relative">
         <div
           className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${Images.footerBackground})` }}
+          style={{ backgroundImage: `url(${Backgrounds.footer})` }}
         />
         <div className="flex flex-col justify-between">
           <div className="flex flex-col lg:flex-row w-full relative bg-[#75480099]">
@@ -44,7 +44,7 @@ export async function Footer() {
                 </div>
               </div>
             </div>
-            <div className="w-full lg:w-1/2 px-4 sm:px-6 lg:px-12 xl:px-16 py-6 lg:py-8 justify-center items-center">
+            <div className="w-full lg:w-1/2 px-4 sm:px-6 lg:px-16 xl:px-32 py-6 lg:py-8 flex justify-center items-center">
               <div className="bg-black bg-opacity-70 rounded-2xl p-4 md:p-6 w-full">
                 <form className="flex flex-col gap-3 md:gap-4">
                   <div className="flex flex-col sm:flex-row justify-between gap-3 md:gap-4">
@@ -97,7 +97,7 @@ export async function Footer() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-6 md:gap-8 w-full">
-              <div className="flex flex-col gap-2 md:gap-3 sm:w-1/2 text-sm">
+              <div className="flex flex-col gap-2 md:gap-3 sm:w-1/2">
                 <p className="font-medium text-orange-400">
                   <span className="text-orange-400 underline underline-offset-8 decoration-orange-400">
                     {'Contac'}
@@ -108,7 +108,7 @@ export async function Footer() {
                 <p className="text-gray-300">{'info@zien.vn'}</p>
               </div>
 
-              <div className="flex flex-col gap-2 md:gap-3 sm:w-1/2 text-sm">
+              <div className="flex flex-col gap-2 md:gap-3 sm:w-1/2">
                 <p className="font-medium text-orange-400">
                   <span className="text-orange-400 underline underline-offset-8 decoration-orange-400">
                     {'Head'}
@@ -123,11 +123,11 @@ export async function Footer() {
               </div>
             </div>
 
-            <div className="flex justify-center items-center w-full text-xs text-gray-400 mt-6 md:mt-8">
+            <div className="flex justify-center items-center w-full text-gray-400 mt-6 md:mt-8">
               {'Copyright © 2023 Zien solutions - all rights reserved.'}
             </div>
           </div>
-          <div className="w-full lg:w-2/5 px-4 sm:px-6 lg:px-16 xl:px-32 py-6 lg:py-8 justify-evenly items-center hidden lg:flex">
+          <div className="w-full lg:w-2/5 px-4 sm:px-6 lg:px-16 xl:px-32 py-6 lg:py-8 flex justify-center items-center">
             <div className="grid grid-cols-2 gap-3 md:gap-4 w-full">
               {navItems.map((item, index) => (
                 <Link

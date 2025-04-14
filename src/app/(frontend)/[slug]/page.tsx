@@ -7,9 +7,9 @@ import { draftMode } from 'next/headers'
 import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
 import { cache } from 'react'
 
-import { Earth3D } from '@/components/Earth3D'
 import { generateMeta } from '@/utilities/generateMeta'
 import { OurWorksSection } from './components/OurWorksSection'
+import { StatisticsSection } from './components/StatisticsSection'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -62,9 +62,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   return (
     <div className="w-full min-h-[100vh] flex flex-col">
-      <div className="flex py-16 justify-center">
-        <Earth3D />
-      </div>
+      <StatisticsSection />
       <OurWorksSection />
     </div>
   )

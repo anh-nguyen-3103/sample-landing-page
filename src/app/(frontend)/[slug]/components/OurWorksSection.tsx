@@ -1,6 +1,8 @@
 'use client'
 
+import { MoveRight } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 type Position = { top?: string; left?: string; right?: string; bottom?: string }
 
@@ -17,15 +19,15 @@ const BackgroundBlur = ({ position }: { position: Position }) => {
 
 const OurWork = ({ item }: { item: Work }) => {
   return (
-    <div className="flex w-full h-[450px] flex-col group gap-4 hover:scale-105 transition-all duration-500 cursor-pointer">
-      <div className="w-full h-64 relative rounded-2xl overflow-hidden">
+    <div className="flex w-full h-[400px] lg:h-[500px] group flex-col group gap-4 rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-105">
+      <div className="w-full h-[80%] relative rounded-2xl overflow-hidden">
         <Image src={item.image.url} alt={item.image.alt} fill />
         <div className="absolute bottom-[10px] left-[10px] flex flex-wrap gap-2 items-start">
           {item.categories &&
             item.categories.map((category, index) => {
               return (
                 <div key={`${category}_${index}`} className="relative z-3 w-fit">
-                  <div className="border-2 px-3 py-1 rounded-full bg-black/70 text-white">
+                  <div className="border border-white px-3 py-1 rounded-full bg-black/50 text-white">
                     <p className="text-xs font-medium">{category}</p>
                   </div>
                 </div>
@@ -55,21 +57,34 @@ export const OurWorksSection = () => {
   ]
 
   return (
-    <section className="rounded-tl-[40px] rounded-tr-[40px] relative">
+    <section className="relative w-full flex min-h-[60vh] overflow-hidden bg-white">
       <div className="absolute top-0 left-0 right-0 w-full h-full bg-[#222426] overflow-hidden">
         {blurPositions.map((position, index) => (
           <BackgroundBlur key={index} position={position} />
         ))}
       </div>
-      <div className="relative container mx-auto px-4 md:px-6 lg:px-8 z-10 py-16">
-        <div className="mb-12 justify-start items-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Our Work</h2>
+      <div className="relative w-full flex flex-col px-4 sm:px-6 lg:px-16 xl:px-32 py-6 lg:py-8 z-10">
+        <div className="justify-start items-center flex w-full mb-6 md:mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-white">Our Work</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-16 mb-8 lg:mb-12">
           {data.map((item, index) => (
             <OurWork key={index} item={item} />
           ))}
         </div>
+        <Link
+          href={'/'}
+          className="group relative inline-flex items-center gap-2 rounded-full border border-orange-400 px-4 py-2 transition-all duration-300 hover:bg-orange-400 w-fit"
+        >
+          <div className="absolute right-2 h-5 w-5 rounded-full bg-orange-400 group-hover:bg-white opacity-25 z-0 blur-sm" />
+          <span className="relative z-10 text-orange-400 transition-colors group-hover:text-white">
+            View all
+          </span>
+          <MoveRight
+            className="relative z-10 text-orange-400 transition-colors group-hover:text-white"
+            size={18}
+          />
+        </Link>
       </div>
     </section>
   )
