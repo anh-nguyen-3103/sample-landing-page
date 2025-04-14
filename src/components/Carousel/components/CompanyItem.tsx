@@ -7,7 +7,7 @@ export interface Company extends Item {
   title: string
   description: string
   industry: string[]
-  scope: { name: string; href: string }
+  scope: Array<{ name: string; href?: string }>
 }
 
 interface CompanyItemProps {

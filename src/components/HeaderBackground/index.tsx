@@ -18,10 +18,16 @@ const companies: Company[] = [
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     industry: ['AI', 'Crowdsourcing'],
-    scope: {
-      name: 'Full Product Design & Development',
-      href: 'https://bobidi.com',
-    },
+    scope: [
+      {
+        name: 'Full Product Design',
+        href: 'https://bobidi.com',
+      },
+      {
+        name: 'Development',
+        href: 'https://bobidi.com',
+      },
+    ],
   },
   {
     id: 1,
@@ -32,10 +38,16 @@ const companies: Company[] = [
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     industry: ['Media', 'News'],
-    scope: {
-      name: 'UI/UX Overhaul & Frontend Development',
-      href: 'https://joongang.co.kr',
-    },
+    scope: [
+      {
+        name: 'UI/UX Overhaul',
+        href: 'https://joongang.co.kr',
+      },
+      {
+        name: 'Frontend Development',
+        href: 'https://joongang.co.kr',
+      },
+    ],
   },
   {
     id: 2,
@@ -46,10 +58,16 @@ const companies: Company[] = [
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     industry: ['Media', 'AI', 'Productivity'],
-    scope: {
-      name: 'AI Integration & Web App Optimization',
-      href: 'https://simonsays.ai',
-    },
+    scope: [
+      {
+        name: 'AI Integration',
+        href: 'https://simonsays.ai',
+      },
+      {
+        name: 'Web App Optimization',
+        href: 'https://simonsays.ai',
+      },
+    ],
   },
   {
     id: 3,
@@ -60,10 +78,16 @@ const companies: Company[] = [
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     industry: ['Finance', 'Banking'],
-    scope: {
-      name: 'Mobile App Design & Security Consulting',
-      href: 'https://techcombank.com.vn',
-    },
+    scope: [
+      {
+        name: 'Mobile App Design',
+        href: 'https://techcombank.com.vn',
+      },
+      {
+        name: 'Security Consulting',
+        href: 'https://techcombank.com.vn',
+      },
+    ],
   },
   {
     id: 4,
@@ -74,10 +98,16 @@ const companies: Company[] = [
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     industry: ['Fintech', 'Crypto'],
-    scope: {
-      name: 'Branding, Design & App Development',
-      href: 'https://timelesswallet.io',
-    },
+    scope: [
+      {
+        name: 'Branding, Design',
+        href: 'https://timelesswallet.io',
+      },
+      {
+        name: 'App Development',
+        href: 'https://timelesswallet.io',
+      },
+    ],
   },
   {
     id: 5,
@@ -88,10 +118,16 @@ const companies: Company[] = [
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     industry: ['Transportation', 'IoT'],
-    scope: {
-      name: 'IoT Integration & Dashboard Development',
-      href: 'https://winddriver.io',
-    },
+    scope: [
+      {
+        name: 'IoT Integration',
+        href: 'https://winddriver.io',
+      },
+      {
+        name: 'Dashboard Development',
+        href: 'https://winddriver.io',
+      },
+    ],
   },
 ]
 
