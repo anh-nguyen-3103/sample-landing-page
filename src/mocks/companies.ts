@@ -37,30 +37,66 @@ const titles = [
 ]
 
 const scopes = [
-  {
-    name: 'Full Product Design & Development',
-    href: 'https://bobidi.com',
-  },
-  {
-    name: 'UI/UX Overhaul & Frontend Development',
-    href: 'https://joongang.co.kr',
-  },
-  {
-    name: 'AI Integration & Web App Optimization',
-    href: 'https://simonsays.ai',
-  },
-  {
-    name: 'Mobile App Design & Security Consulting',
-    href: 'https://techcombank.com.vn',
-  },
-  {
-    name: 'Branding, Design & App Development',
-    href: 'https://timelesswallet.io',
-  },
-  {
-    name: 'IoT Integration & Dashboard Development',
-    href: 'https://winddriver.io',
-  },
+  [
+    {
+      name: 'Full Product Design',
+      href: 'https://bobidi.com',
+    },
+    {
+      name: 'Development',
+      href: 'https://bobidi.com',
+    },
+  ],
+  [
+    {
+      name: 'UI/UX Overhaul',
+      href: 'https://joongang.co.kr',
+    },
+    {
+      name: 'Frontend Development',
+      href: 'https://joongang.co.kr',
+    },
+  ],
+  [
+    {
+      name: 'AI Integration',
+      href: 'https://simonsays.ai',
+    },
+    {
+      name: 'Web App Optimization',
+      href: 'https://simonsays.ai',
+    },
+  ],
+  [
+    {
+      name: 'Mobile App Design',
+      href: 'https://techcombank.com.vn',
+    },
+    {
+      name: 'Security Consulting',
+      href: 'https://techcombank.com.vn',
+    },
+  ],
+  [
+    {
+      name: 'Branding, Design',
+      href: 'https://timelesswallet.io',
+    },
+    {
+      name: 'App Development',
+      href: 'https://timelesswallet.io',
+    },
+  ],
+  [
+    {
+      name: 'IoT Integration',
+      href: 'https://winddriver.io',
+    },
+    {
+      name: 'Dashboard Development',
+      href: 'https://winddriver.io',
+    },
+  ],
 ]
 
 export const companies: Company[] = Array.from({ length: 6 }).map((_, index) => {
