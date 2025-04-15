@@ -92,7 +92,7 @@ export const OurWorksSection: React.FC<OurWorksSectionProps> = ({ data }) => {
           ))}
         </div>
         <Link
-          href={'/'}
+          href={'/projects'}
           className="group relative inline-flex items-center gap-2 rounded-full border border-orange-400 px-4 py-2 transition-all duration-300 hover:bg-orange-400 w-fit self-center"
         >
           <div className="absolute right-2 h-5 w-5 rounded-full bg-orange-400 group-hover:bg-white opacity-25 z-0 blur-sm" />
