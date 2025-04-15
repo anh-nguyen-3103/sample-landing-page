@@ -856,7 +856,7 @@ export interface Client {
   /**
    * Projects completed for this client
    */
-  projects?: (number | Project)[] | null;
+  projects?: (number | null) | Project;
   meta?: {
     title?: string | null;
     /**

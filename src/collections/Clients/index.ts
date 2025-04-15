@@ -104,7 +104,6 @@ export const Clients: CollectionConfig<'clients'> = {
       name: 'projects',
       type: 'relationship',
       relationTo: 'projects',
-      hasMany: true,
       admin: {
         description: 'Projects completed for this client',
       },
