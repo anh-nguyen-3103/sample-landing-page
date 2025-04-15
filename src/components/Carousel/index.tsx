@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { CompanyItem } from './components/CompanyItem'
 import createCarouselContext from './provider'
-import { Company } from '@/models/client'
+import { Client } from '@/payload-types'
 
 export enum ItemType {
   Logo = 'logo',
@@ -114,7 +114,7 @@ export function Carousel<T extends CarouselItemBase>({
       case 'Logo':
         return (
           <CompanyItem
-            item={item as unknown as Company}
+            item={item as unknown as Client}
             onMouseEnter={() => setHoveredItem(item)}
             onMouseLeave={() => setHoveredItem(undefined)}
           />

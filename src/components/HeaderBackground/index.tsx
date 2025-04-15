@@ -1,24 +1,23 @@
 'use client'
 
 import { Videos } from '@/constants/videos'
-import { Company } from '@/models/client'
-import { useEffect, useRef, useState } from 'react'
+import { Client } from '@/payload-types'
+import { useEffect, useRef } from 'react'
 import { Carousel } from '../Carousel'
 import createCarouselContext from '../Carousel/provider'
 import { InfoCompany } from '../InfoCompany'
-import { companies } from '@/mocks/companies'
 
-const CompanyCarousel = createCarouselContext<Company>()
+const CompanyCarousel = createCarouselContext<Client>()
 
-export const HeaderBackground = () => {
+export const HeaderBackground = ({ clients }: { clients: Client[] }) => {
   return (
     <CompanyCarousel.CarouselProvider>
-      <HeaderContent />
+      <HeaderContent clients={clients} />
     </CompanyCarousel.CarouselProvider>
   )
 }
 
-const HeaderContent = () => {
+const HeaderContent = ({ clients }: { clients: Client[] }) => {
   const videoRef = useRef<HTMLVideoElement>(null)
   const { hoveredItem, setHoveredItem } = CompanyCarousel.useCarousel()
 
@@ -70,7 +69,7 @@ const HeaderContent = () => {
             />
           </div>
           <Carousel
-            data={companies}
+            data={clients}
             type="Logo"
             speed={50}
             className="rounded-lg flex bg-gray-400"
