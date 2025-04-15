@@ -35,6 +35,7 @@ export function Carousel<T extends CarouselItemBase>({
   const animationRef = useRef<number | null>(null)
   const [expandedData, setExpandedData] = useState<T[]>([])
   const [isPaused, setIsPaused] = useState(false)
+  const currentPositionRef = useRef<number>(0)
 
   const carouselContext = contextHook
     ? { setHoveredItem: contextHook().setHoveredItem, hoveredItem: contextHook().hoveredItem }
@@ -51,19 +52,20 @@ export function Carousel<T extends CarouselItemBase>({
       return
     }
 
-    setExpandedData([...data, ...data])
+    setExpandedData([...data, ...data, ...data, ...data])
   }, [data])
 
   useEffect(() => {
-    if (!play || !expandedData.length || isPaused) return
+    if (!play || !expandedData.length) return
 
     const container = containerRef.current
     const items = itemsRef.current
 
     if (!container || !items) return
 
-    const originalItemsWidth = items.scrollWidth / 2
-    let position = 0
+    const originalItemsWidth = items.scrollWidth / 4
+
+    let position = currentPositionRef.current
     let lastTimestamp = 0
 
     const animate = (timestamp: number) => {
@@ -78,6 +80,12 @@ export function Carousel<T extends CarouselItemBase>({
         return
       }
 
+      if (isPaused) {
+        lastTimestamp = timestamp
+        animationRef.current = requestAnimationFrame(animate)
+        return
+      }
+
       const delta = timestamp - lastTimestamp
       lastTimestamp = timestamp
 
@@ -87,6 +95,7 @@ export function Carousel<T extends CarouselItemBase>({
         position = 0
       }
 
+      currentPositionRef.current = position
       items.style.transform = `translateX(${position}px)`
       animationRef.current = requestAnimationFrame(animate)
     }

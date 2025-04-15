@@ -16,9 +16,8 @@ export type Company = {
   info?: Info
   image?: Image
   thumbnail?: Image
-  description?: string
   industry?: string[]
-  scope?: Scope
+  scope?: Array<Scope>
   href?: string
 }
 
