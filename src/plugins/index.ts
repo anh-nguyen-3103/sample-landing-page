@@ -57,6 +57,15 @@ export const plugins: Plugin[] = [
   }),
   formBuilderPlugin({
     fields: {
+      text: true,
+      textarea: true,
+      select: true,
+      email: true,
+      state: true,
+      country: true,
+      checkbox: true,
+      number: true,
+      message: true,
       payment: false,
     },
     formOverrides: {
@@ -80,6 +89,7 @@ export const plugins: Plugin[] = [
         })
       },
     },
+    redirectRelationships: ['pages'],
   }),
   searchPlugin({
     collections: ['posts'],
@@ -90,5 +100,6 @@ export const plugins: Plugin[] = [
       },
     },
   }),
+
   payloadCloudPlugin(),
 ]
