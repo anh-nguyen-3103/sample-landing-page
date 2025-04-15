@@ -71,8 +71,10 @@ export interface Config {
     posts: Post;
     media: Media;
     categories: Category;
+    industries: Industry;
     users: User;
     projects: Project;
+    clients: Client;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -88,8 +90,10 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    industries: IndustriesSelect<false> | IndustriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    clients: ClientsSelect<false> | ClientsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -731,6 +735,29 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "industries".
+ */
+export interface Industry {
+  id: number;
+  /**
+   * The name of the industry sector (e.g., Technology, Healthcare, Finance)
+   */
+  name: string;
+  /**
+   * A brief description of the industry and its characteristics
+   */
+  description?: string | null;
+  /**
+   * An icon or image that represents this industry
+   */
+  icon?: (number | null) | Media;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "projects".
  */
 export interface Project {
@@ -738,6 +765,27 @@ export interface Project {
   title: string;
   type?: string | null;
   description?: string | null;
+  /**
+   * Project thumbnail image
+   */
+  thumbnail?: (number | null) | Media;
+  /**
+   * Industry sectors related to this project
+   */
+  industry?: (number | Industry)[] | null;
+  /**
+   * Scope of the project (e.g., Web App, Mobile App, Enterprise Solution)
+   */
+  scope?:
+    | {
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Client this project belongs to
+   */
+  client?: (number | null) | Client;
   authors?: (number | User)[] | null;
   publishedAt?: string | null;
   heroImage?: (number | null) | Media;
@@ -758,6 +806,57 @@ export interface Project {
   } | null;
   relatedPosts?: (number | Post)[] | null;
   categories?: (number | Category)[] | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients".
+ */
+export interface Client {
+  id: number;
+  /**
+   * Client company name
+   */
+  name: string;
+  /**
+   * Client company logo
+   */
+  logo: number | Media;
+  /**
+   * Client testimonial about your services
+   */
+  testimonial?: {
+    /**
+     * Testimonial content/review from the client
+     */
+    content?: string | null;
+    author?: {
+      /**
+       * Name of the client representative
+       */
+      name?: string | null;
+      /**
+       * Position/title of the representative
+       */
+      position?: string | null;
+    };
+  };
+  /**
+   * Projects completed for this client
+   */
+  projects?: (number | Project)[] | null;
   meta?: {
     title?: string | null;
     /**
@@ -961,12 +1060,20 @@ export interface PayloadLockedDocument {
         value: number | Category;
       } | null)
     | ({
+        relationTo: 'industries';
+        value: number | Industry;
+      } | null)
+    | ({
         relationTo: 'users';
         value: number | User;
       } | null)
     | ({
         relationTo: 'projects';
         value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'clients';
+        value: number | Client;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1311,6 +1418,19 @@ export interface CategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "industries_select".
+ */
+export interface IndustriesSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  icon?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
@@ -1333,12 +1453,53 @@ export interface ProjectsSelect<T extends boolean = true> {
   title?: T;
   type?: T;
   description?: T;
+  thumbnail?: T;
+  industry?: T;
+  scope?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  client?: T;
   authors?: T;
   publishedAt?: T;
   heroImage?: T;
   content?: T;
   relatedPosts?: T;
   categories?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients_select".
+ */
+export interface ClientsSelect<T extends boolean = true> {
+  name?: T;
+  logo?: T;
+  testimonial?:
+    | T
+    | {
+        content?: T;
+        author?:
+          | T
+          | {
+              name?: T;
+              position?: T;
+            };
+      };
+  projects?: T;
   meta?:
     | T
     | {
@@ -1730,6 +1891,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'projects';
           value: number | Project;
+        } | null)
+      | ({
+          relationTo: 'clients';
+          value: number | Client;
         } | null);
     global?: string | null;
     user?: (number | null) | User;

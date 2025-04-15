@@ -7,6 +7,7 @@ import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
+import { Industries } from './collections/Industries'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
@@ -17,6 +18,7 @@ import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { Projects } from './collections/Projects'
+import { Clients } from './collections/Clients'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -65,7 +67,7 @@ export default buildConfig({
       url: process.env.DATABASE_URI || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Projects],
+  collections: [Pages, Posts, Media, Categories, Industries, Users, Projects, Clients],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [

@@ -36,13 +36,16 @@ export const Projects: CollectionConfig<'projects'> = {
     title: true,
     slug: true,
     categories: true,
+    thumbnail: true,
+    industry: true,
+    scope: true,
     meta: {
       image: true,
       description: true,
     },
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'type', 'description', 'tabs', 'authors'],
+    defaultColumns: ['title', 'slug', 'type', 'scope', 'industry', 'client'],
     livePreview: {
       url: ({ data, req }) => {
         const path = generatePreviewPath({
@@ -65,7 +68,49 @@ export const Projects: CollectionConfig<'projects'> = {
   fields: [
     { name: 'title', type: 'text', required: true },
     { name: 'type', type: 'text' },
-    { name: 'description', type: 'textarea' },
+    {
+      name: 'description',
+      type: 'textarea',
+    },
+    {
+      name: 'thumbnail',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        description: 'Project thumbnail image',
+      },
+    },
+    {
+      name: 'industry',
+      type: 'relationship',
+      relationTo: 'industries',
+      hasMany: true,
+      admin: {
+        description: 'Industry sectors related to this project',
+      },
+    },
+    {
+      name: 'scope',
+      type: 'array',
+      admin: {
+        description: 'Scope of the project (e.g., Web App, Mobile App, Enterprise Solution)',
+      },
+      fields: [
+        {
+          name: 'value',
+          type: 'text',
+          required: true,
+        },
+      ],
+    },
+    {
+      name: 'client',
+      type: 'relationship',
+      relationTo: 'clients',
+      admin: {
+        description: 'Client this project belongs to',
+      },
+    },
     {
       name: 'authors',
       type: 'relationship',
@@ -138,7 +183,6 @@ export const Projects: CollectionConfig<'projects'> = {
             }),
             MetaTitleField({ hasGenerateFn: true }),
             MetaImageField({ relationTo: 'media' }),
-
             MetaDescriptionField({}),
             PreviewField({
               hasGenerateFn: true,
