@@ -44,6 +44,14 @@ type Args = {
 }
 
 export default async function Page({ params: paramsPromise }: Args) {
+  const payload = await getPayload({ config: configPromise })
+
+  const projects = await payload.find({
+    collection: 'projects',
+  })
+
+  console.log(projects)
+
   const { slug = 'home' } = await paramsPromise
   const url = '/' + slug
 

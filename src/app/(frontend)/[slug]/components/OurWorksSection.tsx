@@ -1,5 +1,3 @@
-'use client'
-
 import { projects } from '@/mocks/projects'
 import { Project } from '@/models/project'
 import { MoveRight } from 'lucide-react'
