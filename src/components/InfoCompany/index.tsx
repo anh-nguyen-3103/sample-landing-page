@@ -13,49 +13,47 @@ export const InfoCompany: React.FC<InfoCompanyProps> = ({ item, updateHoveredIte
 
   return (
     <div
-      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full h-full px-4 sm:px-6 md:px-10 lg:px-16 py-6 sm:py-8 md:py-10 gap-6 md:gap-8"
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full h-full px-4 sm:px-6 md:px-8 lg:px-12 py-6 gap-6 md:gap-8"
       onMouseEnter={() => updateHoveredItem(item)}
       onMouseLeave={() => updateHoveredItem(undefined)}
     >
-      <div className="flex h-52 sm:h-full w-full relative overflow-hidden rounded-lg">
+      <div className="flex h-64 sm:h-72 md:h-full w-full relative overflow-hidden rounded-lg">
         <Image
           src={item.thumbnail?.url ?? ''}
           alt={item.thumbnail?.alt ?? ''}
           fill
           className="object-cover"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>
 
-      <div className="flex flex-col justify-center h-full w-full text-white space-y-2 sm:space-y-3">
+      <div className="flex flex-col justify-center w-full text-white space-y-3 md:space-y-4">
         <div className="flex items-center space-x-2">
-          <h2 className="text-xl sm:text-2xl font-bold uppercase">{item.info?.title}</h2>
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold uppercase">
+            {item.info?.title}
+          </h2>
         </div>
 
-        <p className="text-xs sm:text-sm text-gray-300 line-clamp-6 md:line-clamp-none">
+        <p className="text-sm text-gray-300 line-clamp-6 lg:line-clamp-none">
           {item.info?.description}
         </p>
       </div>
 
-      <div className="flex flex-col justify-center h-full w-full text-white space-y-3 sm:space-y-4 pl-0 sm:pl-4 lg:pl-8">
+      <div className="flex flex-col justify-center w-full text-white space-y-4 md:pl-0 lg:pl-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full">
-          <span className="text-white md:text-xs xl:text-base 2xl:text-xl uppercase font-thin mb-1 sm:mb-0">
-            INDUSTRY
-          </span>
+          <span className="text-sm lg:text-base uppercase font-thin mb-1 sm:mb-0">INDUSTRY</span>
           <div className="flex items-center">
-            <span className="md:text-xs xl:text-base 2xl:text-xl uppercase">
-              {item.industry?.join('/')}
-            </span>
+            <span className="text-sm lg:text-base uppercase">{item.industry?.join('/')}</span>
           </div>
         </div>
 
-        <div className="border-t border-gray-600 my-2 md:my-4" />
+        <div className="border-t border-gray-600 my-3" />
 
-        <div className="flex justify-between w-full">
-          <span className="text-white md:text-xs xl:text-base 2xl:text-xl uppercase font-thin mb-2 sm:mb-0">
+        <div className="flex flex-col sm:flex-row sm:justify-between w-full">
+          <span className="text-sm lg:text-base uppercase font-thin mb-2 sm:mb-0">
             SCOPE OF WORK
           </span>
-          <div className="flex flex-wrap sm:flex-col items-start sm:items-end gap-2 mt-1">
+          <div className="flex flex-wrap gap-2 mt-2 sm:mt-0 sm:justify-end">
             {item.scope &&
               item.scope.map((s, index) =>
                 s.href ? (
@@ -64,16 +62,16 @@ export const InfoCompany: React.FC<InfoCompanyProps> = ({ item, updateHoveredIte
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="cursor-pointer transition-colors duration-200 hover:bg-white hover:text-black rounded-full"
+                    className="cursor-pointer"
                   >
-                    <div className="border border-white text-white md:text-xs xl:text-base 2xl:text-xl uppercase px-2 sm:px-3 md:px-4 xl:px-5 py-1 rounded-full whitespace-nowrap hover:bg-white hover:text-black transition-colors duration-200">
+                    <div className="border border-white text-white text-xs md:text-sm uppercase px-3 py-1 rounded-full whitespace-nowrap hover:bg-white hover:text-black transition-colors duration-200">
                       {s.name}
                     </div>
                   </Link>
                 ) : (
                   <div
                     key={index}
-                    className="border border-white text-white md:text-xs xl:text-base 2xl:text-xl uppercase px-2 sm:px-3 md:px-4 xl:px-5 py-1 rounded-full whitespace-nowrap"
+                    className="border border-white text-white text-xs md:text-sm uppercase px-3 py-1 rounded-full whitespace-nowrap"
                   >
                     {s.name}
                   </div>
