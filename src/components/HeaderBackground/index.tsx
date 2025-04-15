@@ -2,13 +2,12 @@
 
 import { Videos } from '@/constants/videos'
 import { Company } from '@/models/client'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Carousel } from '../Carousel'
 import createCarouselContext from '../Carousel/provider'
 import { InfoCompany } from '../InfoCompany'
 import { companies } from '@/mocks/companies'
 
-// Create a specific carousel context for Company type
 const CompanyCarousel = createCarouselContext<Company>()
 
 export const HeaderBackground = () => {
@@ -21,7 +20,7 @@ export const HeaderBackground = () => {
 
 const HeaderContent = () => {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const { hoveredItem } = CompanyCarousel.useCarousel()
+  const { hoveredItem, setHoveredItem } = CompanyCarousel.useCarousel()
 
   useEffect(() => {
     if (videoRef.current) {
@@ -63,7 +62,12 @@ const HeaderContent = () => {
           <div
             className={`w-full transition-opacity duration-500 flex ${hoveredItem !== undefined ? 'h-[85vh] md:h-[300px] bg-black opacity-90' : 'h-0 bg-black opacity-0'}`}
           >
-            <InfoCompany item={hoveredItem} />
+            <InfoCompany
+              item={hoveredItem}
+              updateHoveredItem={(item) => {
+                setHoveredItem(item)
+              }}
+            />
           </div>
           <Carousel
             data={companies}
