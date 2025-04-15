@@ -39,18 +39,20 @@ export const InfoCompany: React.FC<InfoCompanyProps> = ({ item, updateHoveredIte
 
       <div className="flex flex-col justify-center h-full w-full text-white space-y-3 sm:space-y-4 pl-0 sm:pl-4 lg:pl-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full">
-          <span className="text-white text-lg sm:text-xl uppercase font-thin mb-1 sm:mb-0">
+          <span className="text-white md:text-xs xl:text-base 2xl:text-xl uppercase font-thin mb-1 sm:mb-0">
             INDUSTRY
           </span>
           <div className="flex items-center">
-            <span className="text-lg sm:text-xl uppercase">{item.industry?.join('/')}</span>
+            <span className="md:text-xs xl:text-base 2xl:text-xl uppercase">
+              {item.industry?.join('/')}
+            </span>
           </div>
         </div>
 
         <div className="border-t border-gray-600 my-2 md:my-4" />
 
         <div className="flex justify-between w-full">
-          <span className="text-white text-lg sm:text-xl uppercase font-thin mb-2 sm:mb-0">
+          <span className="text-white md:text-xs xl:text-base 2xl:text-xl uppercase font-thin mb-2 sm:mb-0">
             SCOPE OF WORK
           </span>
           <div className="flex flex-wrap sm:flex-col items-start sm:items-end gap-2 mt-1">
@@ -64,14 +66,14 @@ export const InfoCompany: React.FC<InfoCompanyProps> = ({ item, updateHoveredIte
                     rel="noopener noreferrer"
                     className="cursor-pointer transition-colors duration-200 hover:bg-white hover:text-black rounded-full"
                   >
-                    <div className="border border-white text-white text-sm md:text-base lg:text-xl uppercase px-3 md:px-4 py-1 rounded-full whitespace-nowrap hover:bg-white hover:text-black transition-colors duration-200">
+                    <div className="border border-white text-white md:text-xs xl:text-base 2xl:text-xl uppercase px-2 sm:px-3 md:px-4 xl:px-5 py-1 rounded-full whitespace-nowrap hover:bg-white hover:text-black transition-colors duration-200">
                       {s.name}
                     </div>
                   </Link>
                 ) : (
                   <div
                     key={index}
-                    className="border border-white text-white text-sm sm:text-base lg:text-xl uppercase px-3 sm:px-4 py-1 rounded-full whitespace-nowrap"
+                    className="border border-white text-white md:text-xs xl:text-base 2xl:text-xl uppercase px-2 sm:px-3 md:px-4 xl:px-5 py-1 rounded-full whitespace-nowrap"
                   >
                     {s.name}
                   </div>
