@@ -3,7 +3,9 @@ import { Backgrounds } from '@/constants/images'
 import type { Footer } from '@/payload-types'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import Link from 'next/link'
+import { ConnectionForm } from './Components/ConnectionForm'
 
+// Main Footer component
 export async function Footer() {
   const footerData: Footer = await getCachedGlobal('footer', 1)()
   const navItems = footerData?.navItems || []
@@ -45,44 +47,7 @@ export async function Footer() {
               </div>
             </div>
             <div className="w-full lg:w-1/2 px-4 sm:px-6 lg:px-16 xl:px-32 py-6 lg:py-8 flex justify-center items-center">
-              <div className="bg-black bg-opacity-70 rounded-2xl p-4 md:p-6 w-full">
-                <form className="flex flex-col gap-3 md:gap-4">
-                  <div className="flex flex-col sm:flex-row justify-between gap-3 md:gap-4">
-                    <input
-                      type="text"
-                      placeholder="Your name*"
-                      className="px-3 md:px-4 py-2 rounded flex-1 w-full"
-                    />
-                    <input
-                      type="email"
-                      placeholder="Your email*"
-                      className="px-3 md:px-4 py-2 rounded flex-1 w-full"
-                    />
-                  </div>
-                  <div className="flex flex-col sm:flex-row justify-between gap-3 md:gap-4">
-                    <input
-                      type="text"
-                      placeholder="Company name"
-                      className="px-3 md:px-4 py-2 rounded flex-1 w-full"
-                    />
-                    <input
-                      type="text"
-                      placeholder="I'm interested in"
-                      className="px-3 md:px-4 py-2 rounded flex-1 w-full"
-                    />
-                  </div>
-                  <textarea
-                    placeholder="Your message..."
-                    className="px-3 md:px-4 py-2 rounded h-24 md:h-32"
-                  ></textarea>
-                  <button
-                    type="submit"
-                    className="bg-orange-400 text-white px-4 md:px-6 py-2 rounded self-start hover:bg-orange-500 transition-colors"
-                  >
-                    Send
-                  </button>
-                </form>
-              </div>
+              <ConnectionForm />
             </div>
           </div>
         </div>
