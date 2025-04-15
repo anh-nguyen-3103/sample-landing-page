@@ -4,6 +4,7 @@ export const Images = {
   simonSays: '/assets/images/simon-says-logo.png',
   techcombank: '/assets/images/techcombank-logo.png',
   timelessWallet: '/assets/images/timeless-wallet-logo.png',
+  hoanMy: '/assets/images/hoan-my-logo.png',
   windDriver: '/assets/images/wind-driver-logo.png',
   worldMap: '/assets/images/world-map.jpg',
 }
