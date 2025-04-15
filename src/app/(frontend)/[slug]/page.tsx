@@ -13,44 +13,11 @@ import { StatisticsSection } from './components/StatisticsSection'
 import { TrustedClientsSection } from './components/TrustedClientsSection'
 import { CapabilitiesSection } from './components/CapabilitiesSection'
 
-export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const pages = await payload.find({
-    collection: 'pages',
-    draft: false,
-    limit: 1000,
-    overrideAccess: false,
-    pagination: false,
-    select: {
-      slug: true,
-    },
-  })
-
-  const params = pages.docs
-    ?.filter((doc) => {
-      return doc.slug !== 'home'
-    })
-    .map(({ slug }) => {
-      return { slug }
-    })
-
-  return params
-}
-
-type Args = {
-  params: Promise<{
-    slug?: string
-  }>
-}
+type Args = { params: Promise<{ slug?: string }> }
 
 export default async function Page({ params: paramsPromise }: Args) {
   const payload = await getPayload({ config: configPromise })
-
-  const projects = await payload.find({
-    collection: 'projects',
-  })
-
-  console.log(projects)
+  const projects = await payload.find({ collection: 'projects' })
 
   const { slug = 'home' } = await paramsPromise
   const url = '/' + slug
@@ -61,7 +28,6 @@ export default async function Page({ params: paramsPromise }: Args) {
     slug,
   })
 
-  // Remove this code once your website is seeded
   if (!page && slug === 'home') {
     page = homeStatic
   }
@@ -71,10 +37,10 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   return (
-    <div className="w-full min-h-[100vh] flex flex-col">
+    <div className="w-full min-h-[100vh] flex flex-col bg-white">
       <StatisticsSection />
       <CapabilitiesSection />
-      <OurWorksSection />
+      <OurWorksSection data={projects.docs} />
       <TrustedClientsSection />
     </div>
   )
