@@ -12,6 +12,8 @@ import { OurWorksSection } from './components/OurWorksSection'
 import { StatisticsSection } from './components/StatisticsSection'
 import { TrustedClientsSection } from './components/TrustedClientsSection'
 import { ValueRepresentSection } from '@/components/ValueRepresentSection'
+import { CertificationsSection } from '@/components/CertificationsSection'
+import { OurApproachSection } from '@/components/OurApproachSection'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -65,9 +67,11 @@ export default async function Page({ params: paramsPromise }: Args) {
   return (
     <div className="w-full min-h-[100vh] flex flex-col">
       <StatisticsSection />
+      <OurApproachSection />
       <OurWorksSection />
       <ValueRepresentSection />
       <TrustedClientsSection />
+      <CertificationsSection />
     </div>
   )
 }
