@@ -1,7 +1,7 @@
 'use client'
 
 import { Videos } from '@/constants/videos'
-import { Client } from '@/payload-types'
+import { Client, Project } from '@/payload-types'
 import { useEffect, useRef } from 'react'
 import { Carousel } from '../Carousel'
 import createCarouselContext from '../Carousel/provider'
@@ -63,6 +63,7 @@ const HeaderContent = ({ clients }: { clients: Client[] }) => {
           >
             <InfoCompany
               item={hoveredItem}
+              relatedProject={(hoveredItem?.project as Project) || undefined}
               updateHoveredItem={(item) => {
                 setHoveredItem(item)
               }}

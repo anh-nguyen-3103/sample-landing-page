@@ -854,9 +854,9 @@ export interface Client {
     };
   };
   /**
-   * Projects completed for this client
+   * Project completed for this client
    */
-  projects?: (number | null) | Project;
+  project?: (number | null) | Project;
   meta?: {
     title?: string | null;
     /**
@@ -1499,7 +1499,7 @@ export interface ClientsSelect<T extends boolean = true> {
               position?: T;
             };
       };
-  projects?: T;
+  project?: T;
   meta?:
     | T
     | {

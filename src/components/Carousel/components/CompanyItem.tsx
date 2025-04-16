@@ -1,8 +1,8 @@
-import { Company } from '@/models/client'
+import { Client } from '@/payload-types'
 import Image from 'next/image'
 
 interface CompanyItemProps {
-  item: Company
+  item: Client
   onMouseEnter: () => void
   onMouseLeave: () => void
 }
@@ -15,8 +15,12 @@ export const CompanyItem = ({ item, onMouseEnter, onMouseLeave }: CompanyItemPro
       onMouseLeave={onMouseLeave}
     >
       <Image
-        src={item.image?.url ?? ''}
-        alt={item.image?.alt ?? ''}
+        src={typeof item.logo === 'object' && item.logo?.url ? item.logo.url : ''}
+        alt={
+          typeof item.logo === 'object' && item.logo?.filename
+            ? item.logo.filename
+            : item.name || ''
+        }
         width={130}
         height={70}
         className="grayscale"

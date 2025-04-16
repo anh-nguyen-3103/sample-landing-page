@@ -101,11 +101,11 @@ export const Clients: CollectionConfig<'clients'> = {
       ],
     },
     {
-      name: 'projects',
+      name: 'project',
       type: 'relationship',
       relationTo: 'projects',
       admin: {
-        description: 'Projects completed for this client',
+        description: 'Project completed for this client',
       },
     },
     {
