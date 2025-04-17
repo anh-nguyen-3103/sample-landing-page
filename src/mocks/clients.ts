@@ -1,4 +1,4 @@
-import { Author, Client } from '@/models/client'
+import { Author, Client, Scope } from '@/models/client'
 
 const categoryOptions = ['Tech', 'Finance', 'Health', 'Education']
 const projectTypes = ['Web App', 'Mobile App', 'SaaS', 'Platform']
@@ -30,7 +30,7 @@ const authors: Author[] = [
   },
 ]
 
-export const mockClients: Client[] = Array.from({ length: 4 }).map((_, index) => {
+export const clients: Client[] = Array.from({ length: 4 }).map((_, index) => {
   const hex = Array.from({ length: 6 }, () =>
     '0123456789ABCDEF'.charAt(Math.floor(Math.random() * 16)),
   ).join('')
@@ -42,6 +42,8 @@ export const mockClients: Client[] = Array.from({ length: 4 }).map((_, index) =>
   const projectType = projectTypes[safeIndex]
   const projectName = projectNames[safeIndex]
   const author = authors[safeIndex]
+
+  const companyImages = ['hoan-my', 'timeless-wallet', 'simon-says', 'techcombank']
 
   const notesList = [
     `I feel confident that Zien Solutions will be a reliable and successful partner. The Zien Team is extremely conscientious and dedicated to quality deliverables... I strongly recommend Zien Solutions for any IT project they are seeking in the future.`,
@@ -65,6 +67,14 @@ export const mockClients: Client[] = Array.from({ length: 4 }).map((_, index) =>
 
   const infoTitles = ['Healthcare', 'Blockchain Startup', 'AI Transcription', 'Banking & Fintech']
 
+  // Create an array of scopes instead of a single scope object
+  const scopes: Scope[] = [
+    {
+      name: projectType,
+      href: `/scopes/${projectType?.toLowerCase().replace(/\s/g, '-')}`,
+    },
+  ]
+
   return {
     id: index + 1,
     notes: notesList[index],
@@ -83,18 +93,15 @@ export const mockClients: Client[] = Array.from({ length: 4 }).map((_, index) =>
       },
       image: {
         alt: `${companyNames[index]} Logo`,
-        url: `https://fakeimg.pl/100x100/${hex}/?text=C${index + 1}`,
+        url: `/assets/images/${companyImages[index]}-logo.png`,
       },
       thumbnail: {
         alt: `Thumb ${index + 1}`,
-        url: `https://fakeimg.pl/50x50/${hex}/?text=T${index + 1}`,
+        url: `https://fakeimg.pl/100x100/${hex}/?text=C${index + 1}`,
       },
       description: descriptions[index],
       industry: selectedCategories,
-      scope: {
-        name: projectType,
-        href: `/scopes/${projectType?.toLowerCase().replace(/\s/g, '-')}`,
-      },
+      scope: scopes, // Changed from a single object to an array of Scope objects
       href: `/companies/company-${index + 1}`,
     },
   }

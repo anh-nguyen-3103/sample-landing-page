@@ -3,10 +3,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { CompanyItem } from './components/CompanyItem'
 import createCarouselContext from './provider'
-import { Company } from '@/models/client'
+import { Client, Company } from '@/models/client'
+import { ClientItem } from './components/ClientItem'
 
 export enum ItemType {
   Logo = 'logo',
+  Client = 'client',
 }
 
 export interface CarouselItemBase {
@@ -119,6 +121,14 @@ export function Carousel<T extends CarouselItemBase>({
             onMouseLeave={() => setHoveredItem(undefined)}
           />
         )
+      case 'Client':
+        return (
+          <ClientItem
+            item={item as unknown as Client}
+            onMouseEnter={() => setHoveredItem(item)}
+            onMouseLeave={() => setHoveredItem(undefined)}
+          />
+        )
       default:
         const itemName = 'name' in item ? String(item.name) : `Item ${index % data.length}`
         return (
@@ -130,8 +140,8 @@ export function Carousel<T extends CarouselItemBase>({
   }
 
   return (
-    <section
-      className={`w-full overflow-hidden h-fit ${className}`}
+    <div
+      className={`overflow-hidden ${className}`}
       ref={containerRef}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
@@ -139,21 +149,18 @@ export function Carousel<T extends CarouselItemBase>({
       <div className="relative">
         <div
           ref={itemsRef}
-          className="flex gap-6 px-4 will-change-transform"
+          className="flex gap-6 will-change-transform w-full h-full"
           style={{ transform: 'translateX(0px)' }}
         >
-          {expandedData.map((item, index) => (
-            <div
-              className="flex-shrink-0 w-fit transition-transform duration-200 hover:scale-105"
-              key={`item-${item.id}-${index}`}
-              onMouseEnter={() => setHoveredItem(item)}
-              onMouseLeave={() => setHoveredItem(undefined)}
-            >
-              {renderItem(item, index)}
-            </div>
-          ))}
+          {expandedData.map((item, index) => {
+            return (
+              <div key={index} className="flex h-full w-full">
+                {renderItem(item, index)}
+              </div>
+            )
+          })}
         </div>
       </div>
-    </section>
+    </div>
   )
 }

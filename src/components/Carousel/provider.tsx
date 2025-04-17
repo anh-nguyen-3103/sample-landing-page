@@ -1,10 +1,10 @@
 'use client'
 
 import { createContext, FC, ReactNode, useContext, useState } from 'react'
-import { Item } from '.'
+import { CarouselItemBase } from '.'
 
 // Create a context creator function with proper generics
-const createCarouselContext = <T extends Item>() => {
+const createCarouselContext = <T extends CarouselItemBase>() => {
   const CarouselContext = createContext<
     | {
         hoveredItem?: T

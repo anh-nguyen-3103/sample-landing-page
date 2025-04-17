@@ -74,6 +74,7 @@ export interface Config {
     users: User;
     projects: Project;
     jobs: Job;
+    blogs: Blog;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -92,6 +93,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     jobs: JobsSelect<false> | JobsSelect<true>;
+    blogs: BlogsSelect<false> | BlogsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -901,6 +903,70 @@ export interface Job {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blogs".
+ */
+export interface Blog {
+  id: number;
+  title: string;
+  /**
+   * Select categories for this blog post
+   */
+  categories?: (number | Category)[] | null;
+  /**
+   * A brief summary of the blog post (shown in listings)
+   */
+  excerpt?: string | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * The main image for the blog post
+   */
+  featuredImage: number | Media;
+  /**
+   * Select the author of this blog post
+   */
+  author: number | User;
+  /**
+   * Select related blog posts
+   */
+  relatedPosts?: (number | Blog)[] | null;
+  enableComments?: boolean | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  status?: ('draft' | 'published' | 'archived') | null;
+  publishedAt?: string | null;
+  readTime?: number | null;
+  /**
+   * Featured posts will be displayed prominently
+   */
+  featured?: boolean | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1098,6 +1164,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'jobs';
         value: number | Job;
+      } | null)
+    | ({
+        relationTo: 'blogs';
+        value: number | Blog;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1537,6 +1607,36 @@ export interface JobsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blogs_select".
+ */
+export interface BlogsSelect<T extends boolean = true> {
+  title?: T;
+  categories?: T;
+  excerpt?: T;
+  content?: T;
+  featuredImage?: T;
+  author?: T;
+  relatedPosts?: T;
+  enableComments?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  status?: T;
+  publishedAt?: T;
+  readTime?: T;
+  featured?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
@@ -1919,6 +2019,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'jobs';
           value: number | Job;
+        } | null)
+      | ({
+          relationTo: 'blogs';
+          value: number | Blog;
         } | null);
     global?: string | null;
     user?: (number | null) | User;

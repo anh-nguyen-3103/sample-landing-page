@@ -1,8 +1,10 @@
-import { Category, Media, Project } from '@/payload-types'
+'use client'
+
+import { projects } from '@/mocks/projects'
+import { Project } from '@/models/project'
 import { MoveRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
 
 type Position = { top?: string; left?: string; right?: string; bottom?: string }
 
@@ -18,41 +20,26 @@ const BackgroundBlur = ({ position }: { position: Position }) => {
 }
 
 const OurWork = ({ item }: { item: Project }) => {
-  const heroImage = item.heroImage as unknown as Media
-
   return (
-    <div className="flex w-full h-full h-fit group flex-col group gap-4 rounded-2xl cursor-pointer transition-all duration-500 hover:scale-105">
-      <div className="relative rounded-2xl overflow-hidden w-full min-h-96 flex bg-white">
-        {heroImage && (
-          <Image
-            src={heroImage.url ?? ''}
-            alt={heroImage.filename ?? ''}
-            fill
-            className="scale-105"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-        )}
+    <div className="flex w-full min-h-[450px] h-fit group flex-col group gap-4 rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-105">
+      <div className="w-full h-[350px] relative rounded-2xl overflow-hidden">
+        <Image src={item.image?.url ?? ''} alt={item.image?.alt ?? ''} fill objectFit="cover" />
         <div className="absolute bottom-[10px] left-[10px] flex flex-wrap gap-2 items-start">
           {item.categories &&
             item.categories.map((category, index) => {
-              const categoryTitle =
-                typeof category === 'object' && category.title
-                  ? category.title
-                  : (category as unknown as Category)?.title || 'Category'
-
               return (
-                <div key={`${index}-${categoryTitle}`} className="relative z-3 w-fit">
+                <div key={`${category}_${index}`} className="relative z-3 w-fit">
                   <div className="border border-white px-3 py-1 rounded-full bg-black/50 text-white">
-                    <p className="text-xs font-medium">{categoryTitle}</p>
+                    <p className="text-xs font-medium">{category}</p>
                   </div>
                 </div>
               )
             })}
         </div>
       </div>
-      <p className="uppercase text-sm font-medium text-gray-400">{item.type}</p>
+      <p className="uppercase text-sm font-medium text-gray-400">{item.notes}</p>
       <h1 className="font-bold text-2xl text-white group-hover:text-orange-500 transition-colors">
-        {item.title}
+        {item.name}
       </h1>
       <p className="text-sm text-gray-500 group-hover:text-white transition-colors">
         {item.description}
@@ -61,11 +48,7 @@ const OurWork = ({ item }: { item: Project }) => {
   )
 }
 
-interface OurWorksSectionProps {
-  data: Category[]
-}
-
-export const OurWorksSection: React.FC<OurWorksSectionProps> = ({ data }) => {
+export const OurWorksSection = () => {
   const blurPositions: Position[] = [
     { top: '10%', left: '-10%' },
     { top: '0%', right: '0%' },
@@ -76,7 +59,7 @@ export const OurWorksSection: React.FC<OurWorksSectionProps> = ({ data }) => {
   ]
 
   return (
-    <section className="relative w-full flex min-h-[60vh] overflow-hidden bg-white rounded-tl-[80px] rounded-tr-[80px] py-8">
+    <section className="relative w-full flex min-h-[60vh] overflow-hidden bg-white">
       <div className="absolute top-0 left-0 right-0 w-full h-full bg-[#222426] overflow-hidden">
         {blurPositions.map((position, index) => (
           <BackgroundBlur key={index} position={position} />
@@ -86,13 +69,13 @@ export const OurWorksSection: React.FC<OurWorksSectionProps> = ({ data }) => {
         <div className="justify-start items-center flex w-full mb-6 md:mb-8">
           <h2 className="text-3xl md:text-4xl font-bold text-white">Our Work</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-18 mb-8 md:mb-12">
-          {data.map((item, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-16 mb-8 lg:mb-12">
+          {projects.map((item, index) => (
             <OurWork key={index} item={item} />
           ))}
         </div>
         <Link
-          href={'/projects'}
+          href={'/'}
           className="group relative inline-flex items-center gap-2 rounded-full border border-orange-400 px-4 py-2 transition-all duration-300 hover:bg-orange-400 w-fit self-center"
         >
           <div className="absolute right-2 h-5 w-5 rounded-full bg-orange-400 group-hover:bg-white opacity-25 z-0 blur-sm" />
