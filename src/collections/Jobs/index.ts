@@ -73,15 +73,13 @@ export const Jobs: CollectionConfig<'jobs'> = {
           fields: [
             {
               name: 'jobType',
-              type: 'select',
+              type: 'relationship',
               required: true,
-              options: [
-                { label: 'Full-time', value: 'full-time' },
-                { label: 'Part-time', value: 'part-time' },
-                { label: 'Contract', value: 'contract' },
-                { label: 'Freelance', value: 'freelance' },
-                { label: 'Internship', value: 'internship' },
-              ],
+              admin: {
+                position: 'sidebar',
+              },
+              hasMany: true,
+              relationTo: 'job-types',
             },
             {
               name: 'salary',

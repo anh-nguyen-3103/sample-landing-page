@@ -1,19 +1,17 @@
-import { Suspense } from 'react'
 import configPromise from '@payload-config'
-import { getPayload } from 'payload'
 import { Loader } from 'lucide-react'
-import { JobListWrapper } from './components/JobListWrapper'
+import { getPayload } from 'payload'
+import { Suspense } from 'react'
+import { JobTypeList } from './components/JobTypeList'
+import { JobList } from './components/JobList'
 
 export default async function Page() {
   const payload = await getPayload({ config: configPromise })
-  const initialJobs = await payload.find({
-    collection: 'jobs',
-    limit: 10,
-    depth: 1,
-  })
+  const jobTypes = await payload.find({ collection: 'job-types' })
+  const jobs = await payload.find({ collection: 'jobs' })
 
   return (
-    <div className="w-full min-h-screen bg-white py-24">
+    <main className="w-full min-h-screen px-4 sm:px-6 md:px-12 lg:px-24 xl:px-32 py-12 md:py-24 text-white">
       <Suspense
         fallback={
           <div className="flex w-full h-screen justify-center items-center">
@@ -21,8 +19,20 @@ export default async function Page() {
           </div>
         }
       >
-        <JobListWrapper initialJobs={initialJobs} />
+        <section className="flex flex-col w-full mt-12 md:mt-24 gap-6 md:gap-10 mb-6 md:mb-10">
+          <div className="flex w-fit px-4 py-2 border border-white rounded-full">
+            We&#39;re hiring
+          </div>
+          <h2 className="text-xl md:text-5xl font-bold text-white">Be part of our mission</h2>
+          <h2 className="text-md md:text-xl font-medium text-white">
+            We&#39;are looking for passionate people to join us on our mission. We value first
+            hierarchies, clear communication, and full ownership and responsibility.
+          </h2>
+          <JobTypeList jobTypes={jobTypes.docs} />
+        </section>
+        <div className="w-full h-[1px] bg-gray-800" />
+        <JobList jobs={jobs} />
       </Suspense>
-    </div>
+    </main>
   )
 }

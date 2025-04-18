@@ -75,6 +75,7 @@ export interface Config {
     projects: Project;
     jobs: Job;
     blogs: Blog;
+    'job-types': JobType;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -94,6 +95,7 @@ export interface Config {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     jobs: JobsSelect<false> | JobsSelect<true>;
     blogs: BlogsSelect<false> | BlogsSelect<true>;
+    'job-types': JobTypesSelect<false> | JobTypesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -788,7 +790,7 @@ export interface Project {
 export interface Job {
   id: number;
   title: string;
-  jobType: 'full-time' | 'part-time' | 'contract' | 'freelance' | 'internship';
+  jobType: (number | JobType)[];
   salary?: {
     negotiable?: boolean | null;
     min?: number | null;
@@ -900,6 +902,19 @@ export interface Job {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "job-types".
+ */
+export interface JobType {
+  id: number;
+  title: string;
+  key: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1168,6 +1183,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'blogs';
         value: number | Blog;
+      } | null)
+    | ({
+        relationTo: 'job-types';
+        value: number | JobType;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1634,6 +1653,18 @@ export interface BlogsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "job-types_select".
+ */
+export interface JobTypesSelect<T extends boolean = true> {
+  title?: T;
+  key?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

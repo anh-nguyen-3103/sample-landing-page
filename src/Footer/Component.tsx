@@ -47,7 +47,7 @@ export async function Footer() {
               </div>
             </div>
             <div className="w-full lg:w-1/2 px-4 sm:px-6 lg:px-16 xl:px-32 py-6 lg:py-8 flex justify-center items-center">
-              <ConnectionForm />
+              {/* <ConnectionForm /> */}
             </div>
           </div>
         </div>
