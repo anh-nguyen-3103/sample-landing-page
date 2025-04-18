@@ -19,7 +19,7 @@ export default async function Page() {
           </div>
         }
       >
-        <section className="flex flex-col w-full mt-12 md:mt-24 gap-6 md:gap-10 mb-6 md:mb-10">
+        <section className="flex flex-col w-full mt-12 md:mt-24 gap-6 md:gap-10">
           <div className="flex w-fit px-4 py-2 border border-white rounded-full">
             We&#39;re hiring
           </div>
@@ -30,7 +30,8 @@ export default async function Page() {
           </h2>
           <JobTypeList jobTypes={jobTypes.docs} />
         </section>
-        <div className="w-full h-[1px] bg-gray-800" />
+
+        <div className="w-full h-[1px] bg-gray-800 my-6 md:my-10" />
         <JobList jobs={jobs} />
       </Suspense>
     </main>
