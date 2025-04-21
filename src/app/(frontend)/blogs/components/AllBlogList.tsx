@@ -98,11 +98,9 @@ export const AllBlogList: React.FC<AllBlogListProps> = ({ blogs }) => {
         </div>
       )}
 
-      {loading && (
-        <div ref={loaderRef} className="flex justify-center h-16 items-center">
-          <Loader className="h-8 w-8 animate-spin text-gray-400" />
-        </div>
-      )}
+      <div ref={loaderRef} className="flex justify-center h-16 items-center">
+        {loading && <Loader className="h-8 w-8 animate-spin text-gray-400" />}
+      </div>
     </div>
   )
 }

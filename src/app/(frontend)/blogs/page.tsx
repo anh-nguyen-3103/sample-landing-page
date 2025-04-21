@@ -63,7 +63,7 @@ export default async function BlogsPage({ searchParams }: { searchParams: { cate
           </div>
         }
       >
-        <section className="flex w-full min-h-[60vh] grid md:grid-cols-2 mt-12 md:mt-24 gap-6 lg:gap-8">
+        <section className="flex w-full min-h-[60vh] grid md:grid-cols-2 gap-6 lg:gap-8">
           <div className="flex items-center justify-center p-6 md:p-8 lg:p-12 bg-gray-800/30 rounded-2xl hover:bg-gray-800/50 transition-colors duration-300">
             {mainFeature && <VerticalItem blog={mainFeature} featured={true} />}
           </div>
