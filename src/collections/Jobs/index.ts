@@ -33,7 +33,7 @@ export const Jobs: CollectionConfig<'jobs'> = {
   defaultPopulate: {
     title: true,
     slug: true,
-    jobType: true,
+    jobTypes: true,
     location: true,
     meta: {
       description: true,
@@ -72,7 +72,7 @@ export const Jobs: CollectionConfig<'jobs'> = {
         {
           fields: [
             {
-              name: 'jobType',
+              name: 'jobTypes',
               type: 'relationship',
               required: true,
               admin: {

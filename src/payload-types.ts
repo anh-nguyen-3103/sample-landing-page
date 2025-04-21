@@ -790,7 +790,7 @@ export interface Project {
 export interface Job {
   id: number;
   title: string;
-  jobType: (number | JobType)[];
+  jobTypes: (number | JobType)[];
   salary?: {
     negotiable?: boolean | null;
     min?: number | null;
@@ -1583,7 +1583,7 @@ export interface ProjectsSelect<T extends boolean = true> {
  */
 export interface JobsSelect<T extends boolean = true> {
   title?: T;
-  jobType?: T;
+  jobTypes?: T;
   salary?:
     | T
     | {
