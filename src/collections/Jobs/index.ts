@@ -133,6 +133,14 @@ export const Jobs: CollectionConfig<'jobs'> = {
               ],
             },
             {
+              name: 'experience',
+              type: 'group',
+              fields: [
+                { name: 'min', type: 'number' },
+                { name: 'max', type: 'number' },
+              ],
+            },
+            {
               name: 'skills',
               type: 'array',
               label: 'Skills',
@@ -142,6 +150,17 @@ export const Jobs: CollectionConfig<'jobs'> = {
                   type: 'text',
                   required: true,
                 },
+              ],
+            },
+            {
+              name: 'level',
+              type: 'select',
+              defaultValue: 'internship',
+              options: [
+                { label: 'Internship', value: 'internship' },
+                { label: 'Junior', value: 'junior' },
+                { label: 'Middle', value: 'middle' },
+                { label: 'Senior', value: 'senior' },
               ],
             },
             {

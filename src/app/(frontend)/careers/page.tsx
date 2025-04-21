@@ -11,7 +11,7 @@ export default async function Page() {
   const jobs = await payload.find({ collection: 'jobs' })
 
   return (
-    <main className="w-full min-h-screen px-4 sm:px-6 md:px-12 lg:px-24 xl:px-32 py-12 md:py-24 text-white">
+    <main className="w-full min-h-screen px-4 sm:px-6 md:px-12 lg:px-24 xl:px-32 py-32 text-white">
       <Suspense
         fallback={
           <div className="flex w-full h-screen justify-center items-center">

@@ -5,6 +5,7 @@ import { formatJobFields } from '@/utilities/formatDescription'
 import { formatJobLocation } from '@/utilities/formatLocation'
 import { formatJobSalary } from '@/utilities/formatSalary'
 import { Banknote, Loader, MapPin } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { PaginatedDocs } from 'payload'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
@@ -104,14 +105,22 @@ export const JobList: React.FC<Props> = ({ jobs }) => {
   )
 }
 
-function JobItem({ job }: { job: Job }) {
+const JobItem = ({ job }: { job: Job }) => {
+  const navigation = useRouter()
+  const jobContent = formatJobFields(job, ['description'])
   const jobTypes = job.jobType
     ? (job.jobType as unknown as JobType[]).map((type) => type.title).join(', ')
     : ''
-  const jobContent = formatJobFields(job, ['description'])
+
+  const handleClickItem = useCallback(() => {
+    navigation.push(`/careers/job/${job.id}`)
+  }, [job.id, navigation])
 
   return (
-    <div className="flex rounded-lg flex-col cursor-pointer transition-all duration-500 hover:scale-[0.95] gap-2">
+    <div
+      className="flex rounded-lg flex-col cursor-pointer transition-all duration-500 hover:scale-[0.95] gap-2"
+      onClick={handleClickItem}
+    >
       {jobTypes && (
         <span className="text-xs font-medium uppercase tracking-wider text-orange-400">
           {jobTypes}

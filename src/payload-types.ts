@@ -798,12 +798,17 @@ export interface Job {
     currency?: ('USD' | 'EUR') | null;
     period?: ('year' | 'month' | 'hour') | null;
   };
+  experience?: {
+    min?: number | null;
+    max?: number | null;
+  };
   skills?:
     | {
         skill: string;
         id?: string | null;
       }[]
     | null;
+  level?: ('internship' | 'junior' | 'middle' | 'senior') | null;
   description: {
     root: {
       type: string;
@@ -1588,12 +1593,19 @@ export interface JobsSelect<T extends boolean = true> {
         currency?: T;
         period?: T;
       };
+  experience?:
+    | T
+    | {
+        min?: T;
+        max?: T;
+      };
   skills?:
     | T
     | {
         skill?: T;
         id?: T;
       };
+  level?: T;
   description?: T;
   responsibilities?: T;
   requirements?: T;
