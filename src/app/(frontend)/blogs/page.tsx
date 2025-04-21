@@ -2,12 +2,31 @@ import configPromise from '@payload-config'
 import { Loader } from 'lucide-react'
 import { getPayload } from 'payload'
 import { Suspense } from 'react'
-import { AllBlogList } from './components/AllBlogList'
 import HorizontalItem from './components/HorizontalItem'
 import VerticalItem from './components/VerticalItem'
+import ClientBlogSection from '@/components/BlogSession'
 
-export default async function BlogsPage() {
+async function fetchCategories() {
+  try {
+    const payload = await getPayload({ config: configPromise })
+
+    const categories = await payload.find({
+      collection: 'categories',
+      limit: 100,
+      overrideAccess: false,
+      pagination: false,
+    })
+    return categories.docs || []
+  } catch (error) {
+    console.error('Error fetching categories:', error)
+    return null
+  }
+}
+
+export default async function BlogsPage({ searchParams }: { searchParams: { category?: string } }) {
   const payload = await getPayload({ config: configPromise })
+  const categories = await fetchCategories()
+  const { category } = await searchParams
 
   const [featuredResult, allBlogsResult] = await Promise.all([
     payload.find({
@@ -16,7 +35,18 @@ export default async function BlogsPage() {
       sort: '-publishedDate',
       where: { featured: { equals: true } },
     }),
-    payload.find({ collection: 'blogs', limit: 10, sort: '-publishedDate' }),
+    payload.find({
+      collection: 'blogs',
+      limit: 10,
+      sort: '-publishedDate',
+      ...(category && {
+        where: {
+          'categories.id': {
+            equals: category,
+          },
+        },
+      }),
+    }),
   ])
 
   const mainFeature = featuredResult.docs.at(0) || allBlogsResult.docs.at(0)
@@ -49,12 +79,9 @@ export default async function BlogsPage() {
           </div>
         </section>
 
-        <section className="w-full py-12 md:py-24">
-          <div className="flex justify-between items-center mb-8 md:mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-white">All Post</h2>
-          </div>
-          <AllBlogList blogs={allBlogsResult} />
-        </section>
+        {allBlogsResult && categories && (
+          <ClientBlogSection categories={categories} initialBlogs={allBlogsResult} />
+        )}
       </Suspense>
     </main>
   )

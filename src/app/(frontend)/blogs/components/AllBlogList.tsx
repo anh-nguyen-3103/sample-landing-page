@@ -17,6 +17,10 @@ export const AllBlogList: React.FC<AllBlogListProps> = ({ blogs }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
 
+  useEffect(() => {
+    setData(blogs)
+  }, [blogs])
+
   // Calculate if there are more items to load based on current data
   const hasMoreItems = data.hasNextPage
 
@@ -76,16 +80,24 @@ export const AllBlogList: React.FC<AllBlogListProps> = ({ blogs }) => {
 
   return (
     <div className="flex flex-col w-full gap-6">
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {data.docs.map((blog) => (
-          <div
-            key={blog.id}
-            className="bg-gray-800/30 rounded-2xl p-4 hover:bg-gray-800/50 transition-colors duration-300"
-          >
-            <VerticalItem blog={blog} />
-          </div>
-        ))}
-      </div>
+      {data.docs.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-24 text-center text-gray-400">
+          <p className="text-xl font-semibold mb-2">No posts found 😕</p>
+          <p className="text-sm">Try selecting a different category or check back later.</p>
+        </div>
+      ) : (
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {data.docs.map((blog) => (
+            <div
+              key={blog.id}
+              className="bg-gray-800/30 rounded-2xl p-4 hover:bg-gray-800/50 transition-colors duration-300"
+            >
+              <VerticalItem blog={blog} />
+            </div>
+          ))}
+        </div>
+      )}
+
       {loading && (
         <div ref={loaderRef} className="flex justify-center h-16 items-center">
           <Loader className="h-8 w-8 animate-spin text-gray-400" />
