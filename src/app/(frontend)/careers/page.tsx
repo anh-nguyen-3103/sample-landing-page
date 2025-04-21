@@ -8,7 +8,6 @@ import { JobList } from './components/JobList'
 export default async function Page() {
   const payload = await getPayload({ config: configPromise })
   const jobTypes = await payload.find({ collection: 'job-types' })
-  const jobs = await payload.find({ collection: 'jobs' })
 
   return (
     <main className="w-full min-h-screen px-4 sm:px-6 md:px-12 lg:px-24 xl:px-32 py-32 text-white">
@@ -19,7 +18,7 @@ export default async function Page() {
           </div>
         }
       >
-        <section className="flex flex-col w-full mt-12 md:mt-24 gap-6 md:gap-10">
+        <section className="flex flex-col w-full gap-6 md:gap-10">
           <div className="flex w-fit px-4 py-2 border border-white rounded-full">
             We&#39;re hiring
           </div>
@@ -29,10 +28,9 @@ export default async function Page() {
             hierarchies, clear communication, and full ownership and responsibility.
           </h2>
           <JobTypeList jobTypes={jobTypes.docs} />
+          <div className="w-full h-[1px] bg-gray-800" />
+          <JobList />
         </section>
-
-        <div className="w-full h-[1px] bg-gray-800 my-6 md:my-10" />
-        <JobList jobs={jobs} />
       </Suspense>
     </main>
   )
