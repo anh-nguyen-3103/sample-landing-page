@@ -32,27 +32,29 @@ export default async function BlogsPage({ searchParams }: { searchParams: { cate
     payload.find({
       collection: 'blogs',
       limit: 6,
-      sort: '-publishedDate',
-      where: { featured: { equals: true } },
+      sort: '-publishedAt',
+      where: { featured: { equals: true }, status: { equals: 'published' } },
     }),
     payload.find({
       collection: 'blogs',
       limit: 10,
-      sort: '-publishedDate',
-      ...(category && {
-        where: {
+      sort: '-publishedAt',
+      where: {
+        status: { equals: 'published' },
+        ...(category && {
           'categories.id': {
             equals: category,
           },
-        },
-      }),
+        }),
+      },
     }),
   ])
 
   const mainFeature = featuredResult.docs.at(0) || allBlogsResult.docs.at(0)
-  const secondaryFeatures = allBlogsResult.docs.slice(1, 6).length
-    ? allBlogsResult.docs.slice(1, 6)
-    : allBlogsResult.docs.slice(1, 6)
+  const secondaryFeatures =
+    featuredResult.docs.slice(1, 6).length > 1
+      ? featuredResult.docs.slice(1, 6)
+      : allBlogsResult.docs.slice(1, 6)
 
   return (
     <main className="w-full min-h-screen px-4 sm:px-6 md:px-12 lg:px-24 xl:px-32 py-12 md:py-24 text-white">

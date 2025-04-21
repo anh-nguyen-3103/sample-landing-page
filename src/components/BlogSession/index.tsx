@@ -34,7 +34,7 @@ export default function ClientBlogSection({ categories, initialBlogs }: Props) {
         throw new Error('Failed to fetch blogs')
       }
       const data = await res.json()
-      setBlogs(data.blogs)
+      setBlogs(data)
     } catch (err) {
       console.error('Failed to fetch blogs:', err)
     }

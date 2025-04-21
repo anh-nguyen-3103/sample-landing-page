@@ -21,7 +21,7 @@ export function Categories({
     if (pathname === '/blogs') {
       setSelectedCategoryId(categoryId)
       onClickCategory?.(categoryId)
-      history.pushState(null, '', '/blogs')
+      history.pushState(null, '', `/blogs?category=${categoryId}`)
     } else {
       router.push(`/blogs?category=${categoryId}`)
     }

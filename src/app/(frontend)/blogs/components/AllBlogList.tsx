@@ -4,6 +4,7 @@ import { Loader } from 'lucide-react'
 import { PaginatedDocs } from 'payload'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import VerticalItem from './VerticalItem'
+import { useSearchParams } from 'next/navigation'
 
 interface AllBlogListProps {
   blogs: PaginatedDocs<Blog>
@@ -16,8 +17,11 @@ export const AllBlogList: React.FC<AllBlogListProps> = ({ blogs }) => {
   const loaderRef = useRef<HTMLDivElement>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
+  const searchParams = useSearchParams()
+  const category = searchParams.get('category')
 
   useEffect(() => {
+    setPage(1)
     setData(blogs)
   }, [blogs])
 
@@ -30,9 +34,13 @@ export const AllBlogList: React.FC<AllBlogListProps> = ({ blogs }) => {
       setLoading(true)
 
       const nextPage = page + 1
-      const response = await fetch(`/api/blogs?page=${nextPage}&limit=${LIMIT_BLOGS}`, {
-        headers: { 'Cache-Control': 'no-store' },
-      })
+      const queryParams = new URLSearchParams()
+
+      if (category) queryParams.set('category', category)
+      queryParams.set('page', nextPage.toString())
+      queryParams.set('limit', LIMIT_BLOGS.toString())
+
+      const response = await fetch(`/api/get-blogs-by-category?${queryParams.toString()}`)
 
       if (!response.ok) {
         throw new Error(`Failed to fetch: ${response.status}`)
