@@ -76,6 +76,7 @@ export interface Config {
     jobs: Job;
     blogs: Blog;
     'job-types': JobType;
+    'work-types': WorkType;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -96,6 +97,7 @@ export interface Config {
     jobs: JobsSelect<false> | JobsSelect<true>;
     blogs: BlogsSelect<false> | BlogsSelect<true>;
     'job-types': JobTypesSelect<false> | JobTypesSelect<true>;
+    'work-types': WorkTypesSelect<false> | WorkTypesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -790,7 +792,8 @@ export interface Project {
 export interface Job {
   id: number;
   title: string;
-  jobType: (number | JobType)[];
+  jobTypes: (number | JobType)[];
+  workType: number | WorkType;
   salary?: {
     negotiable?: boolean | null;
     min?: number | null;
@@ -798,12 +801,17 @@ export interface Job {
     currency?: ('USD' | 'EUR') | null;
     period?: ('year' | 'month' | 'hour') | null;
   };
+  experience?: {
+    min?: number | null;
+    max?: number | null;
+  };
   skills?:
     | {
         skill: string;
         id?: string | null;
       }[]
     | null;
+  level?: ('internship' | 'junior' | 'middle' | 'senior') | null;
   description: {
     root: {
       type: string;
@@ -911,6 +919,27 @@ export interface JobType {
   id: number;
   title: string;
   key: string;
+  /**
+   * Number of jobs with this job type
+   */
+  jobCount?: number | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "work-types".
+ */
+export interface WorkType {
+  id: number;
+  title: string;
+  key: string;
+  /**
+   * Number of jobs with this job type
+   */
+  jobCount?: number | null;
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -1187,6 +1216,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'job-types';
         value: number | JobType;
+      } | null)
+    | ({
+        relationTo: 'work-types';
+        value: number | WorkType;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1578,7 +1611,8 @@ export interface ProjectsSelect<T extends boolean = true> {
  */
 export interface JobsSelect<T extends boolean = true> {
   title?: T;
-  jobType?: T;
+  jobTypes?: T;
+  workType?: T;
   salary?:
     | T
     | {
@@ -1588,12 +1622,19 @@ export interface JobsSelect<T extends boolean = true> {
         currency?: T;
         period?: T;
       };
+  experience?:
+    | T
+    | {
+        min?: T;
+        max?: T;
+      };
   skills?:
     | T
     | {
         skill?: T;
         id?: T;
       };
+  level?: T;
   description?: T;
   responsibilities?: T;
   requirements?: T;
@@ -1661,6 +1702,20 @@ export interface BlogsSelect<T extends boolean = true> {
 export interface JobTypesSelect<T extends boolean = true> {
   title?: T;
   key?: T;
+  jobCount?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "work-types_select".
+ */
+export interface WorkTypesSelect<T extends boolean = true> {
+  title?: T;
+  key?: T;
+  jobCount?: T;
   slug?: T;
   slugLock?: T;
   updatedAt?: T;

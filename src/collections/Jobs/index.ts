@@ -33,7 +33,8 @@ export const Jobs: CollectionConfig<'jobs'> = {
   defaultPopulate: {
     title: true,
     slug: true,
-    jobType: true,
+    jobTypes: true,
+    workType: true,
     location: true,
     meta: {
       description: true,
@@ -72,7 +73,7 @@ export const Jobs: CollectionConfig<'jobs'> = {
         {
           fields: [
             {
-              name: 'jobType',
+              name: 'jobTypes',
               type: 'relationship',
               required: true,
               admin: {
@@ -80,6 +81,16 @@ export const Jobs: CollectionConfig<'jobs'> = {
               },
               hasMany: true,
               relationTo: 'job-types',
+            },
+            {
+              name: 'workType',
+              type: 'relationship',
+              required: true,
+              admin: {
+                position: 'sidebar',
+              },
+              hasMany: false,
+              relationTo: 'work-types',
             },
             {
               name: 'salary',
@@ -133,6 +144,14 @@ export const Jobs: CollectionConfig<'jobs'> = {
               ],
             },
             {
+              name: 'experience',
+              type: 'group',
+              fields: [
+                { name: 'min', type: 'number' },
+                { name: 'max', type: 'number' },
+              ],
+            },
+            {
               name: 'skills',
               type: 'array',
               label: 'Skills',
@@ -142,6 +161,17 @@ export const Jobs: CollectionConfig<'jobs'> = {
                   type: 'text',
                   required: true,
                 },
+              ],
+            },
+            {
+              name: 'level',
+              type: 'select',
+              defaultValue: 'internship',
+              options: [
+                { label: 'Internship', value: 'internship' },
+                { label: 'Junior', value: 'junior' },
+                { label: 'Middle', value: 'middle' },
+                { label: 'Senior', value: 'senior' },
               ],
             },
             {

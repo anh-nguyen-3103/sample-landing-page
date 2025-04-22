@@ -1,8 +1,9 @@
 import type { CollectionConfig } from 'payload'
 
-import { anyone } from '../access/anyone'
-import { authenticated } from '../access/authenticated'
+import { anyone } from '@/access/anyone'
+import { authenticated } from '@/access/authenticated'
 import { slugField } from '@/fields/slug'
+import { countJobById } from './hooks/countJobById'
 
 export const JobTypes: CollectionConfig = {
   slug: 'job-types',
@@ -28,6 +29,19 @@ export const JobTypes: CollectionConfig = {
       required: true,
       label: 'Key',
     },
+    {
+      name: 'jobCount',
+      type: 'number',
+      defaultValue: 0,
+      admin: {
+        readOnly: true,
+        description: 'Number of jobs with this job type',
+      },
+    },
+
     ...slugField(),
   ],
+  hooks: {
+    afterChange: [countJobById],
+  },
 }
