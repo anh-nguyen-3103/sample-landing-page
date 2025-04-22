@@ -2,27 +2,59 @@ import configPromise from '@payload-config'
 import { Loader } from 'lucide-react'
 import { getPayload } from 'payload'
 import { Suspense } from 'react'
-import { AllBlogList } from './components/AllBlogList'
 import HorizontalItem from './components/HorizontalItem'
 import VerticalItem from './components/VerticalItem'
+import ClientBlogSection from '@/components/BlogSession'
 
-export default async function BlogsPage() {
+async function fetchCategories() {
+  try {
+    const payload = await getPayload({ config: configPromise })
+
+    const categories = await payload.find({
+      collection: 'categories',
+      limit: 100,
+      overrideAccess: false,
+      pagination: false,
+    })
+    return categories.docs || []
+  } catch (error) {
+    console.error('Error fetching categories:', error)
+    return null
+  }
+}
+
+export default async function BlogsPage({ searchParams }: { searchParams: { category?: string } }) {
   const payload = await getPayload({ config: configPromise })
+  const categories = await fetchCategories()
+  const { category } = await searchParams
 
   const [featuredResult, allBlogsResult] = await Promise.all([
     payload.find({
       collection: 'blogs',
       limit: 6,
-      sort: '-publishedDate',
-      where: { featured: { equals: true } },
+      sort: '-publishedAt',
+      where: { featured: { equals: true }, status: { equals: 'published' } },
     }),
-    payload.find({ collection: 'blogs', limit: 10, sort: '-publishedDate' }),
+    payload.find({
+      collection: 'blogs',
+      limit: 10,
+      sort: '-publishedAt',
+      where: {
+        status: { equals: 'published' },
+        ...(category && {
+          'categories.id': {
+            equals: category,
+          },
+        }),
+      },
+    }),
   ])
 
   const mainFeature = featuredResult.docs.at(0) || allBlogsResult.docs.at(0)
-  const secondaryFeatures = allBlogsResult.docs.slice(1, 6).length
-    ? allBlogsResult.docs.slice(1, 6)
-    : allBlogsResult.docs.slice(1, 6)
+  const secondaryFeatures =
+    featuredResult.docs.slice(1, 6).length > 1
+      ? featuredResult.docs.slice(1, 6)
+      : allBlogsResult.docs.slice(1, 6)
 
   return (
     <main className="w-full min-h-screen px-4 sm:px-6 md:px-12 lg:px-24 xl:px-32 py-12 md:py-24 text-white">
@@ -33,7 +65,7 @@ export default async function BlogsPage() {
           </div>
         }
       >
-        <section className="flex w-full min-h-[60vh] grid md:grid-cols-2 mt-12 md:mt-24 gap-6 lg:gap-8">
+        <section className="flex w-full min-h-[60vh] grid md:grid-cols-2 gap-6 lg:gap-8">
           <div className="flex items-center justify-center p-6 md:p-8 lg:p-12 bg-gray-800/30 rounded-2xl hover:bg-gray-800/50 transition-colors duration-300">
             {mainFeature && <VerticalItem blog={mainFeature} featured={true} />}
           </div>
@@ -49,12 +81,9 @@ export default async function BlogsPage() {
           </div>
         </section>
 
-        <section className="w-full py-12 md:py-24">
-          <div className="flex justify-between items-center mb-8 md:mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-white">All Post</h2>
-          </div>
-          <AllBlogList blogs={allBlogsResult} />
-        </section>
+        {allBlogsResult && categories && (
+          <ClientBlogSection categories={categories} initialBlogs={allBlogsResult} />
+        )}
       </Suspense>
     </main>
   )

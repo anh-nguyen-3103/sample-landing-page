@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import { Suspense } from 'react'
 import HorizontalItem from '../../components/HorizontalItem'
+import { Categories } from '@/components/Categories'
 
 export const revalidate = 500
 
@@ -53,23 +54,6 @@ function LoadingSpinner() {
   )
 }
 
-function Categories({ categories }: { categories: Category[] }) {
-  if (!categories?.length) return null
-
-  return (
-    <div className="flex gap-4 flex-wrap justify-center items-center">
-      {categories.map((category) => (
-        <p
-          key={category.id}
-          className="flex w-fit px-4 py-2 text-lg rounded-full text-gray-500 cursor-pointer bg-gray-800/30 hover:bg-gray-800/50 transition-colors duration-300 hover:text-white"
-        >
-          {category.title}
-        </p>
-      ))}
-    </div>
-  )
-}
-
 function HeroImage({ image, title }: { image?: Media; title: string }) {
   return (
     <div className="w-full h-[500px] relative rounded-2xl overflow-hidden">
@@ -101,7 +85,10 @@ function RelatedBlogs({ blogs }: { blogs: Blog[] }) {
 }
 
 export default async function Page({ params }: PageParams) {
-  const data = await fetchBlogData(params.id)
+  // In Next 15, these APIs have been made asynchronous and direct access will not work as expected.
+  // asynchronous access of `params`.
+  const { id } = await params
+  const data = await fetchBlogData(id)
 
   if (!data) notFound()
 
