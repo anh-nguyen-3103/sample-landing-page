@@ -3,10 +3,13 @@
 import { createContext, useMemo, useState, useContext } from 'react'
 import { JobTypeList } from './components/JobTypeList'
 import { JobList } from './components/JobList'
+import { WorkTypeList } from './components/WorkTypeList'
 
 type CareersContextType = {
-  type: string
-  setType: React.Dispatch<React.SetStateAction<string>>
+  jobType: string
+  setJobType: React.Dispatch<React.SetStateAction<string>>
+  workType: string
+  setWorkType: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const CareersContext = createContext<CareersContextType | undefined>(undefined)
@@ -20,12 +23,16 @@ export const useCareers = (): CareersContextType => {
 }
 
 export const CareersProvider = () => {
-  const [type, setType] = useState<string>('all')
-  const value = useMemo(() => ({ type, setType }), [type])
+  const [jobType, setJobType] = useState<string>('all')
+  const [workType, setWorkType] = useState<string>('full-time')
+  const value = useMemo(() => ({ jobType, setJobType, workType, setWorkType }), [jobType, workType])
 
   return (
     <CareersContext.Provider value={value}>
-      <JobTypeList />
+      <div className="flex flex-col gap-3 flex-wrap">
+        <JobTypeList />
+        <WorkTypeList />
+      </div>
       <div className="w-full h-[1px] bg-gray-800" />
       <JobList />
     </CareersContext.Provider>

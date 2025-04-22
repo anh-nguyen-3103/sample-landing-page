@@ -4,14 +4,14 @@ import { JobType } from '@/payload-types'
 import React, { useEffect, useState } from 'react'
 import { useCareers } from '../providers'
 
-export const JobTypeList: React.FC = () => {
-  const { jobType: type, setJobType } = useCareers()
+export const WorkTypeList: React.FC = () => {
+  const { workType: type, setWorkType } = useCareers()
   const [allJobTypes, setAllJobTypes] = useState<Array<JobType>>([])
 
   useEffect(() => {
     const fetchJobTypes = async () => {
       try {
-        const response = await fetch(`/api/job-types?limit=10`, {
+        const response = await fetch(`/api/work-types?limit=10`, {
           headers: { 'Cache-Control': 'no-store' },
         })
 
@@ -20,18 +20,10 @@ export const JobTypeList: React.FC = () => {
         }
 
         const data = await response.json()
+        const jobTypes = data.docs || []
 
-        const jobTypes = data.docs as Array<JobType>
-
-        const allOption: JobType = {
-          id: -1,
-          title: 'All',
-          key: 'all',
-          updatedAt: new Date().toISOString(),
-          createdAt: new Date().toISOString(),
-        }
-        setAllJobTypes([allOption, ...jobTypes])
-        setJobType(jobTypes.length > 0 ? 'all' : '')
+        setAllJobTypes(jobTypes)
+        setWorkType(jobTypes.length > 0 ? 'full-time' : '')
       } catch (error) {
         console.error('Error fetching job types:', error)
         setAllJobTypes([])
@@ -39,30 +31,30 @@ export const JobTypeList: React.FC = () => {
     }
 
     fetchJobTypes()
-  }, [setJobType])
+  }, [setWorkType])
 
   const setActive = (title: string) => {
-    setJobType(title)
+    setWorkType(title)
   }
 
   return (
     <div className="flex gap-3 flex-wrap">
-      {allJobTypes.map((jobType) => (
+      {allJobTypes.map((workType) => (
         <button
-          key={jobType.id}
-          onClick={() => setActive(jobType.key)}
+          key={workType.id}
+          onClick={() => setActive(workType.key)}
           className={`px-5 py-3 rounded-full text-sm font-medium whitespace-nowrap transition-colors border
             ${
-              jobType.jobCount! < 1
+              workType.jobCount! < 1
                 ? 'opacity-50 cursor-not-allowed border-white'
-                : jobType.key.includes(type)
+                : workType.key.includes(type)
                   ? 'bg-white text-black border-black'
                   : 'bg-transparent text-white border-white hover:bg-white hover:text-black'
             }
           `}
-          disabled={jobType.jobCount! < 1}
+          disabled={workType.jobCount! < 1}
         >
-          {jobType.title}
+          {workType.title}
         </button>
       ))}
     </div>

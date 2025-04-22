@@ -34,6 +34,7 @@ export const Jobs: CollectionConfig<'jobs'> = {
     title: true,
     slug: true,
     jobTypes: true,
+    workType: true,
     location: true,
     meta: {
       description: true,
@@ -80,6 +81,16 @@ export const Jobs: CollectionConfig<'jobs'> = {
               },
               hasMany: true,
               relationTo: 'job-types',
+            },
+            {
+              name: 'workType',
+              type: 'relationship',
+              required: true,
+              admin: {
+                position: 'sidebar',
+              },
+              hasMany: false,
+              relationTo: 'work-types',
             },
             {
               name: 'salary',

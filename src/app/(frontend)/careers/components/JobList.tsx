@@ -12,7 +12,7 @@ import { useCareers } from '../providers'
 const LIMIT_ITEMS = 10
 
 export const JobList: React.FC = () => {
-  const { type } = useCareers()
+  const { jobType, workType } = useCareers()
 
   const [jobs, setJobs] = useState<Job[]>([])
   const [loading, setLoading] = useState<boolean>(true)
@@ -30,15 +30,17 @@ export const JobList: React.FC = () => {
           limit: LIMIT_ITEMS.toString(),
         })
 
-        if (type !== 'all') {
-          params.append('jobTypes', type)
+        if (workType) {
+          params.append('workType', workType)
+        }
+
+        if (jobType && jobType !== 'all') {
+          params.append('jobTypes', jobType)
         }
 
         const response = await fetch(`/api/get-jobs-by-types?${params.toString()}`, {
           headers: { 'Cache-Control': 'no-store' },
         })
-
-        console.log(response.url)
 
         if (!response.ok) {
           throw new Error(`Failed to fetch: ${response.status}`)
@@ -55,19 +57,22 @@ export const JobList: React.FC = () => {
         setHasNextPage(data.hasNextPage)
         setPage(data.page)
       } catch (err) {
-        console.error('Error fetching jobs:', err)
-        setError('Failed to load jobs. Please try again later.')
+        if (!(err instanceof DOMException && err.name === 'AbortError')) {
+          console.error('Error fetching jobs:', err)
+          setError('Failed to load jobs. Please try again later.')
+        }
       } finally {
         setLoading(false)
       }
     },
-    [type],
+    [jobType, workType],
   )
 
   useEffect(() => {
     setPage(1)
+    setError(null)
     fetchJobs(1)
-  }, [fetchJobs, type])
+  }, [fetchJobs, jobType, workType])
 
   useEffect(() => {
     if (!hasNextPage || loading) return
@@ -78,7 +83,7 @@ export const JobList: React.FC = () => {
           fetchJobs(page + 1)
         }
       },
-      { threshold: 0.5, rootMargin: '100px' },
+      { threshold: 0.1, rootMargin: '200px' },
     )
 
     const currentRef = loaderRef.current
@@ -93,44 +98,46 @@ export const JobList: React.FC = () => {
     }
   }, [fetchJobs, hasNextPage, loading, page])
 
-  if (loading && jobs.length === 0) {
-    return (
-      <section className="flex flex-col w-full gap-6 md:gap-10">
+  const renderContent = () => {
+    if (loading && jobs.length === 0) {
+      return (
         <div className="flex w-full justify-center items-center py-10">
           <Loader className="h-8 w-8 animate-spin text-black" />
         </div>
-      </section>
-    )
-  }
+      )
+    }
 
-  if (error && jobs.length === 0) {
-    return (
-      <section className="flex flex-col w-full gap-6 md:gap-10">
+    if (error && jobs.length === 0) {
+      return (
         <div className="flex w-full justify-center items-center py-10 text-red-500">{error}</div>
-      </section>
-    )
-  }
+      )
+    }
 
-  if (jobs.length === 0) {
-    return (
-      <section className="flex flex-col w-full gap-6 md:gap-10">
+    if (jobs.length === 0) {
+      return (
         <div className="flex w-full justify-center items-center py-10 text-gray-500">
-          {type !== 'all' ? `No jobs found for type: ${type}` : 'No jobs found'}
+          {jobType !== 'all' ? `No jobs found for type: ${jobType}` : 'No jobs found'}
         </div>
-      </section>
+      )
+    }
+
+    return (
+      <>
+        {jobs.map((job) => (
+          <JobItem key={job.id} job={job} />
+        ))}
+
+        {error && <div className="text-red-500 text-center py-4">{error}</div>}
+      </>
     )
   }
 
   return (
     <div className="flex flex-col w-full gap-6 md:gap-10">
-      {jobs.map((job) => (
-        <JobItem key={job.id} job={job} />
-      ))}
-
-      {error && <div className="text-red-500 text-center py-4">{error}</div>}
+      {renderContent()}
 
       <div ref={loaderRef} className="mt-4 flex justify-center py-4">
-        {loading && <Loader className="h-8 w-8 animate-spin text-black" />}
+        {loading && jobs.length > 0 && <Loader className="h-8 w-8 animate-spin text-black" />}
       </div>
     </div>
   )
@@ -158,7 +165,9 @@ const JobItem = ({ job }: { job: Job }) => {
         </span>
       )}
       <h3 className="font-semibold text-lg">{job.title}</h3>
-      {jobContent && <p className="text-md text-gray-500 font-medium">{jobContent.description}</p>}
+      {jobContent && (
+        <p className="text-md text-gray-500 font-medium line-clamp-2">{jobContent.description}</p>
+      )}
       <div className="flex flex-wrap gap-2">
         <div className="flex w-fit px-2 py-1 text-gray-500 rounded-full text-xs font-medium whitespace-nowrap border border-gray-500 gap-1 items-center">
           <MapPin size={14} />

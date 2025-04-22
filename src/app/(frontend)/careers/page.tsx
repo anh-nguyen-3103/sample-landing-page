@@ -12,7 +12,7 @@ export default async function Page() {
           </div>
         }
       >
-        <section className="flex flex-col w-full gap-6 md:gap-10">
+        <section className="flex flex-col w-full gap-6 md:gap-10 min-h-[100vh]">
           <div className="flex w-fit px-4 py-2 border border-white rounded-full">
             We&#39;re hiring
           </div>
